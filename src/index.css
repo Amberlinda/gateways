@@ -1,0 +1,31 @@
+.bg-white{
+    background-color: white;
+}
+.bg-black{
+    background-color: black;
+}
+.bg-blue{
+    background-color: #CBE5FF;
+}
+.bg-login-btn{
+    background-color: #CCFF28;
+}
+@media only screen  and (max-width: 768px) 
+  {
+	.christ{
+		display: none;	
+
+	  }
+      [class*="col-"] {
+        width: 100%;
+      }
+  } 
+
+  @font-face {
+    font-family: KrossNeueGrotesk-Thin;
+    src: url(../public/KrossNeueGrotesk-Thin.ttf);
+  }
+  @font-face {
+    font-family: KrossNeueGrotesk-Light;
+    src: url(../public/KrossNeueGrotesk-Light.ttf);
+    }
