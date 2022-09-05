@@ -23,9 +23,13 @@
 
   @font-face {
     font-family: KrossNeueGrotesk-Thin;
-    src: url(../public/KrossNeueGrotesk-Thin.ttf);
+    src: url(../public/fonts/KrossNeueGrotesk-Thin.ttf);
   }
   @font-face {
     font-family: KrossNeueGrotesk-Light;
-    src: url(../public/KrossNeueGrotesk-Light.ttf);
+    src: url(../public/fonts/KrossNeueGrotesk-Light.ttf);
     }
+
+  body{
+    font-family: KrossNeueGrotesk-Thin;
+  }

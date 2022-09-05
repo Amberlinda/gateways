@@ -4,17 +4,20 @@ import {UserDashboardSidebar} from '../Components/UserDashboardSidebar'
 const TeamEventForm = () => {
 
     const [events,setEvents] = useState([{
-        name:"hackathon",
-        participants:2
+        name:"Mariothon (Hackathon)",
+        participants:4
     },{
-        name:"vlogging",
-        participants:2
-    },{
-        name:"treasure hunt",
-        participants:6
-    },{
-        name:"coding debugging",
+        name:"Vlogumentary (Vlogging)",
         participants:3
+    },{
+        name:"Lost in Age (Treasure Hunt)",
+        participants:5
+    },{
+        name:"CodeShashtra (Coding-Debugging)",
+        participants:3
+    },{
+        name:"BattleStars (Gaming)",
+        participants:5
     }])
     const [selectedEvent,setSelectedEvent] = useState("hackathon")
 
