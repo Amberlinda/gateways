@@ -1,0 +1,13 @@
+@font-face {
+    font-family: kross-light;
+    src: url(./fonts/KrossNeueGrotesk-Light.ttf);
+}
+
+@font-face {
+    font-family: kross-thin;
+    src: url(./fonts/KrossNeueGrotesk-Thin.ttf);
+}
+
+body{
+    font-family: kross-thin;
+}
