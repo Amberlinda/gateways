@@ -49,8 +49,8 @@ export const Login = () => {
           <div className="row m-0 p-0 mt-5 bg-black">
 
             <div className="col-md-6 m-0 p-0 mt-0  bg-white christ" >
-              <div className="col">
-                <img src={i1} alt="..." />
+              <div className="col m-0 p-0">
+                <img src={i1} alt="..." height="100%" />
               </div>
             </div>
 
@@ -59,16 +59,15 @@ export const Login = () => {
               <div className="row m-0 p-0  ">
                 <div className="row m-0 p-0 mt-3 justify-content-center">
                   <div className='col-md-9 col-12  m-0 p-3 mt-4' >
-                    <h1> <center>Welcome To Gateways 2022 </center></h1>
+                    <h1 style={{fontFamily:"KrossNeueGrotesk-Light"}}> <center>Welcome To Gateways 2022 </center></h1>
                     <h2 style={{ fontFamily: "KrossNeueGrotesk-Light" }} >
                     <br/> <center> Login </center>
                     </h2>
                   </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmitHandler)}>
-                  <div className="row m-4 p-5  " >
-                    
-                    <div className="col-lg-12 m-2">
+                  <div className="row m-4 p-0  " >                    
+                    <div className="col-md-12 m-2">
                       <label htmlFor="">Email</label>
                       <input
                         type="email"
@@ -79,7 +78,7 @@ export const Login = () => {
                     </div>
 
                   
-                    <div className="col-lg-12 m-2">
+                    <div className="col-md-12 m-2">
                       <label htmlFor="">Password</label>
                       <input
                         type="password"
@@ -88,13 +87,13 @@ export const Login = () => {
                         {...register("password", { required: true })}
                       />
                     </div>
-                    <div className="row p-5  pt-2 ">
-                    <div className="col-3 m-0 p-0 ">
-                       <a href='/register'  style={{color:"black",textDecoration:"none"}}>Not Registered ? Register Now</a>
+                    <div className="row p-5  pt-2 ml-1">
+                    <div className="col-md-4 m-0 p-0 ">
+                    <center>   <a href='/register'  style={{color:"black",textDecoration:"none", fontSize: "0.8rem"}}>Not Registered ? Register Now</a> </center>
                       </div>
-                      <div className="col-8 m-0 p-0"></div>
-                      <div className="col-1 m-0 p-0">
-                      <input type="submit" className="btn" style={{ backgroundColor: "#CBE5FF" }} name="Submit form" />
+                      <div className="col-md-4 m-0 p-0 pt-3"></div>
+                      <div className="col-md-3 m-0 p-0">
+                      <center>   <input type="submit" className="btn" style={{ backgroundColor: "#CBE5FF" }} name="Submit form" /> </center>
                       </div>
                     </div>
                   </div>

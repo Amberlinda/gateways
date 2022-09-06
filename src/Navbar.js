@@ -49,7 +49,7 @@ export default function Navbar({ children }) {
               <ul class="navbar-nav d-flex px-4" >
                 <li className="nav-item px-2">
                   <a
-                    className={"nav-link"}
+                    className="nav-link"
                     href="#"
                     onClick={(e) => {
                       navigate("/");
