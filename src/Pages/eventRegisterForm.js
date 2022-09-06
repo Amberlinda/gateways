@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {UserDashboardSidebar} from '../Components/UserDashboardSidebar'
+import { url } from '../utils/constants'
+import { useForm } from 'react-hook-form'
+import { useJwt } from 'react-jwt'
 
-const TeamEventForm = () => {
+const TeamEventForm = ({
+    // events
+}) => {
 
     const [events,setEvents] = useState([{
-        name:"hackathon",
-        participants:2
+        id:0,
+        name:"Mariothon (Hackathon)",
+        participants:4
     },{
-        name:"vlogging",
-        participants:2
-    },{
-        name:"treasure hunt",
-        participants:6
-    },{
-        name:"coding debugging",
+        id:1,
+        name:"Vlogumentary (Vlogging)",
         participants:3
+    },{
+        id:2,
+        name:"Lost in Age (Treasure Hunt)",
+        participants:5
+    },{
+        id:3,
+        name:"CodeShashtra (Coding-Debugging)",
+        participants:3
+    },{
+        id:4,
+        name:"BattleStars (Gaming)",
+        participants:5
     }])
-    const [selectedEvent,setSelectedEvent] = useState("hackathon")
+    const [selectedEvent,setSelectedEvent] = useState(0)
 
     return(
         <>
@@ -30,42 +44,32 @@ const TeamEventForm = () => {
                     <select id="inputState" class="form-select" onChange={(e) => setSelectedEvent(e.target.value)}>
                         {events.map((el,index) => <option 
                         style={{textTransform:"capitalize"}}
-                        key={index} value={el}>{el}</option>)}
+                        key={index} value={el.id}>{el.name}</option>)}
                     </select>
                     <label class="visually-hidden" for="autoSizingInput">Team Name</label>
                     <input type="text" class="form-control" id="autoSizingInput"
                         placeholder="Team Name"/>
-                    {}
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Name</label>
-                        <input type="text" class="form-control" id="autoSizingInput"
-                            placeholder="Particiapant 1"/>
-                    </div>
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Name</label>
-                        <input type="text" class="form-control" id="autoSizingInput"
-                            placeholder="Particiapant ID"/>
-                    </div>
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Name</label>
-                        <input type="text" class="form-control" id="autoSizingInput"
-                            placeholder="Particiapant 1"/>
-                    </div>
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Name</label>
-                        <input type="text" class="form-control" id="autoSizingInput"
-                            placeholder="Particiapant ID"/>
-                    </div>
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Name</label>
-                        <input type="text" class="form-control" id="autoSizingInput"
-                            placeholder="Particiapant 1"/>
-                    </div>
-                    <div class="col-auto">
-                        <label class="visually-hidden" for="autoSizingInput">Name</label>
-                        <input type="text" class="form-control" id="autoSizingInput"
-                            placeholder="Particiapant ID"/>
-                    </div>
+                    {events.map((el,index) => {
+                        if(el.id == selectedEvent){
+                            return(
+                                [...Array(el.participants)].map((elem,ind) => (
+                                    <>
+                                        <div class="col-auto">
+                                            <label class="visually-hidden" for="autoSizingInput">Particiapant name #{ind+1}</label>
+                                            <input type="text" class="form-control" id="autoSizingInput"
+                                                />
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="visually-hidden" for="autoSizingInput">Particiapant id #{ind+1}</label>
+                                            <input type="text" class="form-control" id="autoSizingInput"
+                                                />
+                                        </div>
+                                    </>
+                                    
+                                ))
+                            )
+                        }
+                    })}
                 </form>
             </div>
             <p style={{marginTop:"15px"}}>
@@ -77,23 +81,46 @@ const TeamEventForm = () => {
     )
 }
 
-const IndividualEventForm = () => {
+const IndividualEventForm = ({
+    events,
+    // token
+}) => {
+
+    const {handleSubmit, register} = useForm()
+    // const { decodedToken } = useJwt(token)
+
+    const onSubmitHandler = (data) => {
+        // console.log(decodedToken)
+        if(Object.values(data).indexOf(true) === -1){
+            alert("Select atleast 1 event.");
+            return
+        }
+        const accessToken = JSON.parse(localStorage.getItem("accessToken"))
+        // axios.post(`${url}/eventRegister`,{
+        //     event_id:0,
+        //     part_id:0
+        // },{
+        //     headers:{
+        //         authorization: accessToken
+        //     }
+        // })
+        // console.log(data)
+    }
+    
     return(
         <>
             <div class="form-check">
-                <form>
-                    {["Geek 'O' Fiesta(IT Manager)",
-                    "UIPicasso (UI/UX)",
-                    "Lens a Moment(Photography)"
-                    ].map((el,index) => (
-                        <label class="checkbox-inline" key={index} style={{display:"block"}}>
-                            <input className="checkboxcustom" type="checkbox" value="0"/>
-                            {el}
+                <form onSubmit={handleSubmit(onSubmitHandler)}>
+                    {events?.map((el,index) => (
+                        <label class="checkbox-inline" key={el.event_id} style={{display:"block"}}>
+                            <input className="checkboxcustom" type="checkbox" 
+                            {...register(`${el.event_id}`)}/>
+                            {el.event_name}
                         </label>
                     ))}
-                    
+                    <button type="submit" class="btn btn-info">Register Now</button>
                 </form>
-                <button type="button" class="btn btn-info">Register Now</button>
+                
 
             </div>
         </>
@@ -103,6 +130,36 @@ const IndividualEventForm = () => {
 const EventRegisterForm = () => {
 
     const [selectedForm,setSelectedForm] = useState("individual")
+    const [events,setEvents] = useState([])
+
+    const getEvents = () => {
+        axios.get(`${url}/events`)
+        .then(resp => {
+            if(resp.status === 200){
+                // console.log(resp)
+                setEvents(resp.data.events)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const handleEventType = (val) =>{
+        const newArr = []
+        events.forEach(el => {
+            if(el.event_type === val){
+                newArr.push(el)
+            }
+        })
+
+        return newArr
+    }
+
+    useEffect(() => {
+        getEvents();
+    },[])
+
 
     return(
         <>
@@ -135,9 +192,9 @@ const EventRegisterForm = () => {
                                                 </h3>
                                             </p>
                                             {selectedForm === "individual" ?
-                                                <IndividualEventForm/>
+                                                <IndividualEventForm events={handleEventType(0)}/>
                                                 :selectedForm === "team" ?
-                                                <TeamEventForm/> : null
+                                                <TeamEventForm events={handleEventType(1)}/> : null
                                             }
                                             
                                         </div>
