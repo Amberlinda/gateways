@@ -1,26 +1,66 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Navbar from "../Navbar";
 import i1 from "../assets/christ_flag.png"
 import '../index.css';
-import { useForm } from "react-hook-form";
-import { url } from '../utils/constants';
-import axios from 'axios';
+import { useForm, Controller } from "react-hook-form";
+import axios from 'axios'
+import {url} from '../utils/constants'
+import { useNavigate } from 'react-router-dom'
+import { useJwt } from 'react-jwt'
+import {
+  Paper,
+  Link,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  CssBaseline,
+  Button,
+  Avatar,
+  Box,
+  Grid,
+  Typography,
+  OutlinedInput,
+  InputLabel,
+  InputAdornment,
+  IconButton,
+  MenuItem
+} from '@mui/material'
+
+import {
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
 
 
 export const Register  = () => {
   
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, control, handleSubmit, watch, formState: { errors } } = useForm({
+    defaultValues: {
+      college: 1
+    }
+  });
   const navigate = useNavigate();
+  const [showPassword,setShowPassword] = useState(false)
+  const [collegeId,setCollegeId] = useState(1)
+  const [colleges,setColleges] = useState([
+    "CHRIST",
+    "St Joseph's",
+    "Jain"
+  ])
+
   const onSubmitHandler = (data) => {
-    // console.log(data)
-    const {name,email,password,college_id,phno} = data
+    console.log(data)
+    const {name,email,password,college,phno} = data
     axios.post(`${url}/register`,{
       // body:{
         Name:name,
         Email:email,
         password:password,
-        college_id:college_id,
+        college_id:college,
         ph_no:phno
       }
     )
@@ -44,110 +84,184 @@ export const Register  = () => {
   const reqSign= (<span style={{color:"red",fontSize:"18px"}}>*</span>);
 
   return (
-    <>  
-      <div className="row">
-        <Navbar />
-      </div>
-      <div class="container-flex " style={{
-
-          top: "0",
-          width: "100%",
-        }}>
-      <div style={{fontFamily:"KrossNeueGrotesk-Light"}} >
-        <div className="row m-0 p-0 mt-5 bg-black">
-           
-          <div className="col-md-6 m-0 p-0 mt-0  bg-white christ" >
-           
-              <img   src={i1} alt="..."  height="100%"/>
-          
-          </div>
-          
-
-          <div className="col-md-6  m-0 mt-0 p-2 bg-white" style={{ color: "black" }}>
-            <div className="row m-0 p-0  ">
-            <div className="row m-0 p-0 justify-content-center">
-              <div className='col-md-9 col-12  m-0 p-0 mt-4' >
-                <h1 style={{fontFamily:"KrossNeueGrotesk-Light"}}> <center>Welcome To Gateways 2022 </center></h1>
-                <h3 style={{fontFamily:"KrossNeueGrotesk-Light"}} >
-                 <center> Registration </center>
-                </h3>
-              </div>
-            </div>
-            <form onSubmit={handleSubmit(onSubmitHandler)}>
-              <div className="row m-0 p-4  " >
-                <div className="col-lg-12 m-2">
-                  <label htmlFor="">Name{reqSign}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-              
-                    style={errors.name ? {border:"2px solid red"} : {}}
-                    {...register("name", { required: true })}
-                  />
-                </div>
-                <div className="col-lg-12 m-2">
-                  <label htmlFor="">Email{reqSign}</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                 
-                    style={errors.email ? {border:"2px solid red"} : {}}
-                    {...register("email", { required: true, pattern:"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$" })}
-                  />
-                </div>
-              
-                <div className="col-lg-12 m-2">
-                  <label htmlFor="">University/College{reqSign}</label>
-                  {/* <input style={{display:"none"}} 
-                    value={college}
-                    
-                  /> */}
-                  <select class="form-control"
-                    placeholder="College" 
-                    {...register("college_id", { required: true })}
-                    style={errors.college ? {border:"2px solid red"} : {}}>
-                      <option value={null} selected="selected"  disabled >Select Your College</option>
-                      {["Christ (Deemed to be University)",
-                      "St.Joseph's",
-                      "Jain University",
-                      "RV University"].map((el,index) => <option key={index} value={index}>{el}</option>)}                    
-                  </select>
-                </div>
-                <div className="col-lg-12 m-2">
-                  <label htmlFor="">Phone Number{reqSign}</label>
-                  <input
-                    type="tel"
-                    class="form-control"
+    <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url('${i1}')`,
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              REGISTER
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit(onSubmitHandler)} sx={{ mt: 1 }}>
+              <Controller
+                name="name"
+                control={control}
+                rules={{
+                  required:true
+                }}
+                render={({ field }) => 
+                <TextField 
+                  error={errors.name} 
+                  margin="normal"
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  autoComplete="name"
+                  autoFocus
+                {...field} />}
+              />
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required:true
+                }}
+                render={({ field }) => 
+                <TextField 
+                  error={errors.email} 
+                  margin="normal"
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  autoComplete="email"
+                  autoFocus
+                {...field} />}
+              />
+              <Controller
+                name="college"
+                control={control}
+                rules={{
+                  required:true
+                }}
+                render={({field}) => (
+                  <TextField
+                    id="college"
+                    fullWidth
+                    margin='normal'
+                    select
+                    label="College"
+                    autoFocus
+                    error={errors.college}
+                    value={collegeId}
+                    onChange={(e) => setCollegeId(e.target.value)} 
+                    {...field}
+                  >
+                    {colleges.map((option,index) => (
+                      <MenuItem key={index} value={index}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+              )}/>
+              <Controller
+                name="phno"
+                control={control}
+                rules={{
+                  required:true,
+                  minLength:10,
+                  maxLength:10
+                }}
+                render={({ field }) => 
+                <TextField 
+                  error={errors.phno} 
+                  margin="normal"
+                  fullWidth
+                  id="phno"
+                  label="Phone number"
+                  autoComplete="phno"
+                  autoFocus
+                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                  {...field} />}
+              />
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required:true
+                }}
+                render={({ field }) => 
+                <>
+                <TextField 
+                  error={errors.email} 
+                  margin="normal"
+                  type={showPassword ? 'text' : 'password'}
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  autoComplete="password"
+                  helperText="Enter password of atleast length 8 including 1 lowercase, uppercase, special character and a number."
+                  autoFocus
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>,
+                  }}
                   
-                    style={errors.phno ? {border:"2px solid red"} : {}}
-                    {...register("phno", { required: true, minLength:10, maxLength: 10 })}
-                  />
-                </div>
-                <div className="col-lg-12 m-2">
-                  <label htmlFor="">Password{reqSign}</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                   
-                    style={errors.password ? {border:"2px solid red"} : {}}
-                    {...register("password", { required: true })}
-                  />
-                  {/* <label>Enter atleast 1 lowercase, 1 uppercase, 1 special character and a digit.{reqSign}</label> */}
-                </div>
-                <div className="d-flex justify-content-end pt-2">
-                  <input type="submit" className="btn" style={{backgroundColor:"#CBE5FF"}} />
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div> 
-      </div>    
-      </div>    
-     
-    
-
-    </>
+                {...field} />
+                </>}
+              />
+              
+              {/* <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              /> */}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Register
+              </Button>
+              <Grid container>
+                {/* <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid> */}
+                <Grid item>
+                  <Link href="/login" variant="body2">
+                    {"Already signed up? Login"}
+                  </Link>
+                </Grid>
+              </Grid>
+              {/* <Copyright sx={{ mt: 5 }} /> */}
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
 
   )
 }
