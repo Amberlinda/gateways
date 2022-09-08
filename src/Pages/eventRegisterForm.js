@@ -20,13 +20,17 @@ import {
     CssBaseline,
     Grid,
     Select,
-    InputLabel
+    InputLabel,
+    Typography
 } from '@mui/material'
 import { getName } from "../utils/helpers";
 
 const theme = createTheme({
     palette:{
         mode:"dark"
+    },
+    typography:{
+        fontFamily:"KrossNeueGrotesk-Light"
     }
 })
 
@@ -376,51 +380,67 @@ const EventRegisterForm = () => {
 
     return(
         <>
-            <UserDashboardSidebar/>
-            <main>
-                <div class="site-section">
-                    <div class="container-fluid">
-                        <div class="row justify-content-center">
-                            <div class="col-md-11">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h2>Hello John</h2>
+            <ThemeProvider theme={theme}>
+                <UserDashboardSidebar/>
+                <main>
+                    <div class="site-section">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center">
+                                <div class="col-md-11">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>Hello John</h2>
 
-                                        <div class="col-md-9">
-                                            <p class="mt-5">
-                                                <h3 style={{display:"flex"}}>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                        style={{textTransform:"capitalize"}}>
-                                                            {selectedForm}
-                                                        </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                            {["individual","team"].map((el,index) => (
-                                                                <button class="dropdown-item" type="button" 
-                                                                onClick={() => setSelectedForm(el)}>{el}</button>
+                                            <div class="col-md-9">
+                                                <p class="mt-5">
+                                                    <h3 style={{display:"flex"}}>
+                                                        <TextField
+                                                            select
+                                                            label="Select"
+                                                            value={selectedForm}
+                                                            onChange={(e) => setSelectedForm(e.target.value)}
+                                                            helperText="Please select event type"
+                                                            sx={{color:"#fff"}}
+                                                            >
+                                                            {["individual","team"].map((option) => (
+                                                                <MenuItem key={option} value={option}>
+                                                                    {option}
+                                                                </MenuItem>
                                                             ))}
-                                                        </div>
-                                                    </div>
-                                                     <span style={{marginLeft:"5px"}}>events <span style={{fontSize:"15px"}}>(For individual events select any one event as time is overlaping)</span></span>
-                                                </h3>
-                                            </p>
-                                            {selectedForm === "individual" ?
-                                                <IndividualEventForm events={handleEventType(0)} token={accessToken}/>
-                                                :selectedForm === "team" ?
-                                                <TeamEventForm events={handleEventType(1)} token={accessToken}/> : null
-                                            }
-                                            
+                                                        </TextField>
+                                                        {/* <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                            style={{textTransform:"capitalize"}}>
+                                                                {selectedForm}
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                                {["individual","team"].map((el,index) => (
+                                                                    <button class="dropdown-item" type="button" 
+                                                                    onClick={() => setSelectedForm(el)}>{el}</button>
+                                                                ))}
+                                                            </div>
+                                                        </div> */}
+                                                        <Typography variant="h3" component="span" sx={{ml:2}}>events <span style={{fontSize:"15px"}}>(For individual events select any one event as time is overlaping)</span></Typography>
+                                                    </h3>
+                                                </p>
+                                                {selectedForm === "individual" ?
+                                                    <IndividualEventForm events={handleEventType(0)} token={accessToken}/>
+                                                    :selectedForm === "team" ?
+                                                    <TeamEventForm events={handleEventType(1)} token={accessToken}/> : null
+                                                }
+                                                
+                                            </div>
+
                                         </div>
 
                                     </div>
 
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                </div>
-            </main>
+                </main>
+            </ThemeProvider>
         </>
     );
 }

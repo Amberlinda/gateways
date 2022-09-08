@@ -33,8 +33,11 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const theme = createTheme();
-
+const theme = createTheme({
+  typography:{
+    fontFamily:"KrossNeueGrotesk-Light"
+  }
+});
 
 export const Register  = () => {
   
