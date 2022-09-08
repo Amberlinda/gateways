@@ -50,9 +50,10 @@ export const Login = () => {
     )
     .then(resp => {
       console.log(resp)
-      if(resp.status === 200){
+      if(resp.status === 200 && resp.statusText == "OK"){
         alert("Login successful");
         localStorage.setItem('accessToken',JSON.stringify(resp.data.accessToken))
+        navigate("/user-dashboard", { replace: true });
       }
     })
     .catch(error => {

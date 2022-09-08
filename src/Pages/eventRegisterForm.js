@@ -2,11 +2,104 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {UserDashboardSidebar} from '../Components/UserDashboardSidebar'
 import { url } from '../utils/constants'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useJwt } from 'react-jwt'
+import {
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
+    Radio,
+    RadioGroup,
+    FormControl,
+    Button,
+    Box,
+    TextField,
+    MenuItem,
+    createTheme,
+    ThemeProvider,
+    CssBaseline,
+    Grid,
+    Select,
+    InputLabel
+} from '@mui/material'
+import { getName } from "../utils/helpers";
+
+const theme = createTheme({
+    palette:{
+        mode:"dark"
+    }
+})
+
+const ParticipantName = ({
+    ind,
+    control,
+    iDs,
+    setIds
+}) => {
+
+    const [participantId,setParticipantId] = useState()
+    const [participantName,setParticipantName] = useState("Participant name")
+
+
+    const handleIdChange = (event) => {
+        const val = event.target.value
+        setIds({
+            ...iDs,
+            [ind]:val
+        })
+        setParticipantId(val)
+        if(val.toString().length > 3){
+            axios.post(`${url}/getName`,{
+                part_id:val
+            })
+            .then(resp => {
+                // setParticipantName()
+                if(resp.status === 200 && resp.statusText === "OK"){
+                    console.log(resp.data?.name)
+                    setParticipantName(resp.data?.name)
+                }
+                console.log(resp)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
+    }
+
+    return(
+        <>
+            <Grid item xs={12} sm={6}>
+                <TextField 
+                    // error={errors.team_name} 
+                    margin="normal"
+                    fullWidth
+                    value={participantName}
+                    onChange={e => setParticipantName(e.target.value)}
+                    id={`partipant_name_${ind+2}`}
+                    label={`Partipant name #${ind+2}`}
+                    autoFocus
+                    disabled
+                />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <TextField 
+                    // error={errors.team_name} 
+                    margin="normal"
+                    fullWidth
+                    id={`partipant_id_${ind+2}`}
+                    label={`Partipant id #${ind+2}`}
+                    value={participantId}
+                    onChange={handleIdChange}
+                    autoFocus
+                />
+            </Grid>
+        </>
+    )
+}
 
 const TeamEventForm = ({
-    // events
+    // events,
+    token
 }) => {
 
     const [events,setEvents] = useState([{
@@ -30,98 +123,202 @@ const TeamEventForm = ({
         name:"BattleStars (Gaming)",
         participants:5
     }])
-    const [selectedEvent,setSelectedEvent] = useState(0)
+    const [selectedEvent,setSelectedEvent] = useState(1)
+    const [selectedEventErr,setSelectedEventErr] = useState(false)
+    const [defaultParticipantId,setDefaultParticipantId] = useState("Participant id")
+    const [defaultParticipantName,setDefaultParticipantName] = useState("Participant name")
+    const {decodedToken} = useJwt(token)
+    const [participants,setParticipants] = useState([])
+    const [iDs,setIds] = useState({})
+    const [teamName,setTeamName] = useState() 
+
+    const {control, handleSubmit,formState:{errors}} = useForm()
+
+    useEffect(() => {
+        const decToken = decodedToken?.id
+        getName(decToken,(val => {
+            setDefaultParticipantName(val)
+        }))
+        setDefaultParticipantId(decToken)
+        
+    },[decodedToken,token])
+
+    
+    const onSubmitHandler = (data) => {
+
+        if(!selectedEvent){setSelectedEventErr(true); return}
+        console.log(iDs)
+        const idArr = [
+            defaultParticipantId,
+            ...Object.values(iDs)
+        ]
+        console.log(idArr)
+        
+        setSelectedEventErr(false)
+        axios.post(`${url}/registerTeam`,{
+            event_id: selectedEvent,
+            id:idArr,
+            team_name: teamName
+        },{
+            headers:{
+                authorization: `Bearer ${token}`
+            }
+        })
+        console.log(data)
+    }
 
     return(
         <>
             {/* <p class="mt-5">
                 <h3>Team Events</h3>
             </p> */}
-            <div class="col-md-7">
-                <form class="row gy-3 gx-3 align-items-center mt-3">
-
-                    <label for="inputState" class="form-label">Select an Event</label>
-                    <select id="inputState" class="form-select" onChange={(e) => setSelectedEvent(e.target.value)}>
-                        {events.map((el,index) => <option 
-                        style={{textTransform:"capitalize"}}
-                        key={index} value={el.id}>{el.name}</option>)}
-                    </select>
-                    <label class="visually-hidden" for="autoSizingInput">Team Name</label>
-                    <input type="text" class="form-control" id="autoSizingInput"
-                        placeholder="Team Name"/>
-                    {events.map((el,index) => {
-                        if(el.id == selectedEvent){
-                            return(
-                                [...Array(el.participants)].map((elem,ind) => (
+            <ThemeProvider theme={theme}>
+                <Box component="form" noValidate onSubmit={handleSubmit(onSubmitHandler)}>
+                    <Grid container spacing={2} xs={7} mt={2}>
+                        <Grid item xs={12}>
+                            <Select
+                                id="event"
+                                value={selectedEvent}
+                                defaultValue={1}
+                                label="Select an event"
+                                fullWidth
+                                error={selectedEventErr}
+                                onChange={(e) => {setSelectedEvent(e.target.value); setIds({})}}
+                            >
+                                {events.map((option,index) => (
+                                    <MenuItem key={option.id} value={option.id}>
+                                        {option.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField 
+                                error={!teamName}
+                                margin="normal"
+                                fullWidth
+                                id="team_name"
+                                label="Team name"
+                                autoComplete="Team name"
+                                autoFocus
+                                value={teamName}
+                                onChange={(e) => setTeamName(e.target.value)}
+                            />
+                        </Grid>
+                        {events.map((el,index) => {
+                            if(el.id == selectedEvent){
+                                return(
                                     <>
-                                        <div class="col-auto">
-                                            <label class="visually-hidden" for="autoSizingInput">Particiapant name #{ind+1}</label>
-                                            <input type="text" class="form-control" id="autoSizingInput"
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField 
+                                                // error={errors.team_name} 
+                                                margin="normal"
+                                                fullWidth
+                                                id={`partipant_name_1`}
+                                                label={`Partipant name #1`}
+                                                // autoComplete={`Partipant name #1`}
+                                                value={defaultParticipantName}
+                                                onChange={(e) => setDefaultParticipantName(e.target.value)}
+                                                disabled
+                                                autoFocus
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField 
+                                                // error={errors.team_name} 
+                                                margin="normal"
+                                                fullWidth
+                                                id={`partipant_id_1`}
+                                                label={`Partipant id #1`}
+                                                autoComplete={`Partipant id #1`}
+                                                autoFocus
+                                                value={defaultParticipantId}
+                                                onChange={(e) => setDefaultParticipantId(e.target.value)}
+                                                disabled
+                                            />
+                                        </Grid>
+                                        {
+                                            [...Array(el.participants-1)].map((elem,ind) => (
+                                                <ParticipantName 
+                                                ind={ind}
+                                                control={control}
+                                                iDs={iDs}
+                                                setIds={setIds}
                                                 />
-                                        </div>
-                                        <div class="col-auto">
-                                            <label class="visually-hidden" for="autoSizingInput">Particiapant id #{ind+1}</label>
-                                            <input type="text" class="form-control" id="autoSizingInput"
-                                                />
-                                        </div>
+                                                
+                                            ))
+                                        }
                                     </>
                                     
-                                ))
-                            )
-                        }
-                    })}
-                </form>
-            </div>
-            <p style={{marginTop:"15px"}}>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Register Now</button>
-                </div>
-            </p>
+                                )
+                            }
+                        })}
+                    </Grid>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Register Now
+                    </Button>
+                </Box>
+            </ThemeProvider>
         </>
     )
 }
 
 const IndividualEventForm = ({
     events,
-    // token
+    token
 }) => {
 
     const {handleSubmit, register} = useForm()
-    // const { decodedToken } = useJwt(token)
+    const [selectedEvent,setSelectedEvent] = useState()
+    const {decodedToken} = useJwt(token)
+
 
     const onSubmitHandler = (data) => {
-        // console.log(decodedToken)
-        if(Object.values(data).indexOf(true) === -1){
+        if(!selectedEvent){
             alert("Select atleast 1 event.");
             return
         }
-        const accessToken = JSON.parse(localStorage.getItem("accessToken"))
-        // axios.post(`${url}/eventRegister`,{
-        //     event_id:0,
-        //     part_id:0
-        // },{
-        //     headers:{
-        //         authorization: accessToken
-        //     }
-        // })
-        // console.log(data)
+        axios.post(`${url}/eventRegister`,{
+            event_id:selectedEvent
+        },{
+            headers:{
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(resp => {
+            console.log(resp)
+            if(resp.status === 200){
+                alert(resp.data.response)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
     
     return(
         <>
             <div class="form-check">
-                <form onSubmit={handleSubmit(onSubmitHandler)}>
-                    {events?.map((el,index) => (
-                        <label class="checkbox-inline" key={el.event_id} style={{display:"block"}}>
-                            <input className="checkboxcustom" type="checkbox" 
-                            {...register(`${el.event_id}`)}/>
-                            {el.event_name}
-                        </label>
-                    ))}
-                    <button type="submit" class="btn btn-info">Register Now</button>
-                </form>
-                
-
+                <FormControl>
+                    <RadioGroup
+                        aria-labelledby="demo-controlled-radio-buttons-group"
+                        name="controlled-radio-buttons-group"
+                        value={selectedEvent}
+                        onChange={(e) => setSelectedEvent(e.target.value)}
+                    >
+                        {events?.map((el,index) => (
+                            <FormControlLabel value={el.event_id} control={<Radio sx={{color:"#fff"}}/>} label={el.event_name} />
+                        ))}
+                    </RadioGroup>
+                </FormControl>
+                <Box component="div">
+                    <Button variant="contained" onClick={onSubmitHandler}>Register Now</Button>
+                </Box>
             </div>
         </>
     )
@@ -131,6 +328,7 @@ const EventRegisterForm = () => {
 
     const [selectedForm,setSelectedForm] = useState("individual")
     const [events,setEvents] = useState([])
+    const [accessToken,setAccessToken] = useState(JSON.parse(localStorage.getItem("accessToken")))
 
     const getEvents = () => {
         axios.get(`${url}/events`)
@@ -188,13 +386,13 @@ const EventRegisterForm = () => {
                                                             ))}
                                                         </div>
                                                     </div>
-                                                     <span style={{marginLeft:"5px"}}>events</span>
+                                                     <span style={{marginLeft:"5px"}}>events <span style={{fontSize:"15px"}}>(For individual events select any one event as time is overlaping)</span></span>
                                                 </h3>
                                             </p>
                                             {selectedForm === "individual" ?
-                                                <IndividualEventForm events={handleEventType(0)}/>
+                                                <IndividualEventForm events={handleEventType(0)} token={accessToken}/>
                                                 :selectedForm === "team" ?
-                                                <TeamEventForm events={handleEventType(1)}/> : null
+                                                <TeamEventForm events={handleEventType(1)} token={accessToken}/> : null
                                             }
                                             
                                         </div>
