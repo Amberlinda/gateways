@@ -11,6 +11,8 @@ import { scroller } from "react-scroll";
 import HomeNavbar from "../Components/HomeNavbar";
 import React,{useEffect} from "react";
 import { useLocation } from "react-router-dom";
+import ce from "../assets/ce.png"
+import white_logo from "../assets/white_logo.png"
 export const Home = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -26,9 +28,16 @@ export const Home = () => {
       <div class="container-fluid hero" style={{ backgroundColor: "#18181F" }}>
         <div class="row">
           <div class="col-12">
-            <p>
+            <p >
+            <img 
+            class="glogo"
+            src={white_logo}
+            width="200"
+            height="200"      
+            alt=""
+          ></img>
               <h1 class="title">
-                Gateways {id}
+                GATEWAYS 
                 <br></br>
                 2022
               </h1>
@@ -126,12 +135,12 @@ export const Home = () => {
           </div>
           <div class="row justify-content-center">
             <div class="col-md-2 p-3">
-              <div class="card">
+              <div class="card h-100">
                 <img
                   class="card-img-top"
                   src={marithon}
                   alt="Card image cap"
-                ></img>
+                />
                 <div class="card-body">
                   <h4 class="card-title">Mariothon</h4>
                   <p class="card-text">Hackathon? Check. IoT? Check. Crazy idea? Bring yours forward</p>
@@ -142,7 +151,7 @@ export const Home = () => {
               </div>
             </div>
             <div class="col-md-2 p-3">
-              <div class="card">
+              <div class="card h-100">
                 <img
                   class="card-img-top"
                   src={itmanager}
@@ -150,7 +159,7 @@ export const Home = () => {
                 ></img>
                 <div class="card-body">
                   <h5 class="card-title">Geek O Fiesta</h5>
-                  <p class="card-text">A race to success against all odds</p>
+                  <p class="card-text">A race to success against all odds</p><br/><br/>
                   <a href="#" class="btn btn-primary">
                     Read More
                   </a>
@@ -158,7 +167,7 @@ export const Home = () => {
               </div>
             </div>
             <div class="col-md-2 p-3">
-              <div class="card">
+              <div class="card h-100">
                 <img class="card-img-top" src={code} alt="Card image cap"></img>
                 <div class="card-body">
                   <h5 class="card-title">Code Shastra</h5>
@@ -170,12 +179,12 @@ export const Home = () => {
               </div>
             </div>
             <div class="col-md-2 p-3">
-              <div class="card">
+              <div class="card h-100">
                 <img class="card-img-top" src={uiux} alt="Card image cap"></img>
                 <div class="card-body">
                   <h5 class="card-title">UI picasso</h5>
-                  <p class="card-text">content</p>
-                  <a href="#" class="btn btn-primary">
+                  <p class="card-text">Journey towards a mysterious palette </p><br/><br/>
+                  <a href="#" class="btn btn-primary">                    
                     Read More
                   </a>
                 </div>
@@ -192,7 +201,7 @@ export const Home = () => {
             </div>
             <div class=" justify-content-center row">
               <div class="col-md-2 p-4">
-                <div class="card">
+                <div class="card h-100">
                   <img
                     class="card-img-top"
                     src={TresureHunt}
@@ -200,7 +209,7 @@ export const Home = () => {
                   ></img>
                   <div class="card-body">
                     <h4 class="card-title">Lost In Ages</h4>
-                    <p class="card-text">Enter, trepid adventurer, to seek your fortune</p>
+                    <p class="card-text">Enter, trepid adventurer, to seek your fortune</p><br/>
                     <a href="#" class="btn btn-primary">
                       Read More
                     </a>
@@ -208,7 +217,7 @@ export const Home = () => {
                 </div>
               </div>
               <div class="col-md-2 p-4">
-                <div class="card">
+                <div class="card h-100">
                   <img
                     class="card-img-top"
                     src={photography}
@@ -216,7 +225,7 @@ export const Home = () => {
                   ></img>
                   <div class="card-body">
                     <h5 class="card-title">Lens O Moment</h5>
-                    <p class="card-text">Stay in the moment, by capturing the moment</p>
+                    <p class="card-text" style={{fontSize:"0.9rem"}}>Stay in the moment, by capturing the moment</p>
                     <a href="#" class="btn btn-primary">
                       Read More
                     </a>
@@ -224,7 +233,7 @@ export const Home = () => {
                 </div>
               </div>
               <div class="col-md-2 p-4">
-                <div class="card">
+                <div class="card h-100">
                   <img
                     class="card-img-top"
                     src={vlog}
@@ -232,7 +241,7 @@ export const Home = () => {
                   ></img>
                   <div class="card-body">
                     <h5 class="card-title">Vlogumentary</h5>
-                    <p class="card-text">Vlog your heart out, with a twist from the mind</p>
+                    <p class="card-text">Vlog your heart out, with a twist from the mind</p><br/>
                     <a href="#" class="btn btn-primary">
                       Read More
                     </a>
@@ -240,7 +249,7 @@ export const Home = () => {
                 </div>
               </div>
               <div class="col-md-2 p-4">
-                <div class="card">
+                <div class="card h-100">
                   <img
                     class="card-img-top"
                     src={gaming}
@@ -248,7 +257,7 @@ export const Home = () => {
                   ></img>
                   <div class="card-body">
                     <h5 class="card-title">Battle Stars</h5>
-                    <p class="card-text">Teams, present your gamers!</p>
+                    <p class="card-text">Teams, present your gamers!</p><br/><br/>
                     <a href="#" class="btn btn-primary">
                       Read More
                     </a>
@@ -256,7 +265,7 @@ export const Home = () => {
                 </div>
               </div>
               <div class="col-md-2 p-4">
-                <div class="card">
+                <div class="card h-100">
                   <img
                     class="card-img-top"
                     src={eventX}
@@ -264,7 +273,7 @@ export const Home = () => {
                   ></img>
                   <div class="card-body">
                     <h5 class="card-title">Event X</h5>
-                    <p class="card-text">content</p>
+                    <p class="card-text">Surprise! Surprise! its beyond your imagination</p><br/>
                     <a href="#" class="btn btn-primary">
                       Read More
                     </a>

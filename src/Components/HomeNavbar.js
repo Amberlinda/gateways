@@ -10,7 +10,8 @@ const HomeNavbar = () => {
     <div>
       <nav
         class="navbar navbar-expand-lg navbar-dark navbar-custom"
-        style={{backgroundColor: '#18181F'}}
+        style={{backgroundColor: '#1a233a'}}
+
       >
         <a class="navbar-brand" href="">
           <img
@@ -18,6 +19,7 @@ const HomeNavbar = () => {
             src={image}
             width="200"
             height="100"
+      
             alt=""
           ></img>
         </a>
@@ -36,22 +38,22 @@ const HomeNavbar = () => {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="/" style={{color: '#ffffff',fontWeight:"800"}}>
                 Home <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#events" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#events" style={{color: '#ffffff',fontWeight:"800"}}>
                 Events <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#" style={{color: '#ffffff',fontWeight:"800"}}>
                 Brochure <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#" style={{color: '#ffffff'}}
+              <a class="nav-link" href="#" style={{color: '#ffffff',fontWeight:"800"}}
                onClick={e=>{
                 navigate("/schedule")
               }}>
@@ -59,7 +61,7 @@ const HomeNavbar = () => {
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#about" style={{color: '#ffffff'}}
+              <a class="nav-link" href="#about" style={{color: '#ffffff',fontWeight:"800"}}
                onClick={e=>{
                 navigate("/")
               }}>
@@ -67,7 +69,7 @@ const HomeNavbar = () => {
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#contact" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#contact" style={{color: '#ffffff',fontWeight:"800"}}>
                 Contact <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -76,6 +78,9 @@ const HomeNavbar = () => {
             class="btn btn-outline-success my-2 my-sm-0"
             type="submit"
             style={{backgroundColor: "#CCFF28", color: "#000", fontWeight:"800"}}
+            onClick={e=>{
+              navigate("/login")
+            }}
           >
             Login
           </button>
