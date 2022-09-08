@@ -1,6 +1,16 @@
 import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const UserDashboardSidebar = () => {
+
+    const navigate = useNavigate()
+
+    const handleSignOut = () => {
+        localStorage.removeItem("accessToken")
+        navigate("/login",{replace:true})
+        document.location.reload()
+    }
+
     return (
         <>
             <aside className="sidebar">
@@ -25,7 +35,7 @@ export const UserDashboardSidebar = () => {
                             <li><a href="#"><span className="icon-notifications mr-3"></span>Updates</a></li>
                             <li><a href="#"><span className="icon-location-arrow mr-3"></span>Schedule</a></li>
                             <li><a href="#"><span className="icon-pie-chart mr-3"></span>Brochure</a></li>
-                            <li><a href="#"><span className="icon-sign-out mr-3"></span>Sign out</a></li>
+                            <li onClick={handleSignOut}><a href="#"><span className="icon-sign-out mr-3" ></span>Sign out</a></li>
                         </ul>
                     </div>
                 </div>

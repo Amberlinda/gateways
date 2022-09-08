@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from "../Navbar";
 import i1 from "../assets/christ_flag.png"
 import '../index.css';
@@ -22,12 +22,15 @@ import {
   OutlinedInput,
   InputLabel,
   InputAdornment,
-  IconButton
+  IconButton,
+  Fab,
+  Loading
 } from '@mui/material'
-
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Visibility,
   VisibilityOff,
+  ArrowBack
 } from '@mui/icons-material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -42,11 +45,20 @@ export const Login = () => {
 
   const navigate = useNavigate();
   const [showPassword,setShowPassword] = useState(false)
+  const [loading,setLoading] = useState(false)
   const { control, handleSubmit, formState: { errors } } = useForm();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken")
+    if(token != null){
+      navigate("/user-dashboard",{replace:true})
+    }
+  },[])
 
   const onSubmitHandler = (data) => {
     const {email,password} = data
     // console.log(data)
+    setLoading(true)
     axios.post(`${url}/userLogin`,{
         Email:email,
         password:password
@@ -55,6 +67,7 @@ export const Login = () => {
     .then(resp => {
       console.log(resp)
       if(resp.status === 200 && resp.statusText == "OK"){
+        setLoading(false)
         alert("Login successful");
         localStorage.setItem('accessToken',JSON.stringify(resp.data.accessToken))
         navigate("/user-dashboard", { replace: true });
@@ -68,6 +81,15 @@ export const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <Fab color="primary" aria-label="back" style={{
+        position: 'absolute',
+        top: 16,
+        left: 16,
+      }}>
+        <Link href="/" sx={{color:"#fff",lineHeight:"unset"}}>
+          <ArrowBack />
+        </Link>
+      </Fab>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -155,14 +177,27 @@ export const Login = () => {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               /> */}
-              <Button
+              
+              <LoadingButton
+                size="small"
+                type="submit"
+                // endIcon={<SendIcon />}
+                loading={loading}
+                loadingPosition="end"
+                variant="contained"
+                fullWidth
+                sx={{mt:2}}
+              >
+                Login
+              </LoadingButton>
+              {/* <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Login
-              </Button>
+              </Button> */}
               <Grid container>
                 {/* <Grid item xs>
                   <Link href="#" variant="body2">

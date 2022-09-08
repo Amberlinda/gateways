@@ -17,3 +17,13 @@ export const getName = (part_id,success) => {
         return null
     })
 }
+
+export const getCollegesHandler = (success) => {
+    axios.get(`${url}/getColleges`)
+    .then(resp => {
+        success(resp.data)
+    })
+    .catch(err => {
+
+    })
+  }

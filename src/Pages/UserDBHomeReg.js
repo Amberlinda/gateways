@@ -108,7 +108,7 @@ const EventSection = ({
                 }}
             >
                 {/* d78627 */}
-                {events.map((obj,index) => (
+                {events?.length !== 0 ? events.map((obj,index) => (
                     <Item key={index} sx={{background:"#d78627"}}>
                         <Card sx={{ width:200,background:"#d78627" }}  >
                             <CardContent>
@@ -130,7 +130,8 @@ const EventSection = ({
                         </Card>
                     </Item>
                     
-                ))}
+                ))
+            :<Typography variant="h5" component="div">No registered event</Typography>}
             </Box>
         </>
     )
@@ -143,14 +144,17 @@ export const UserDBHomeReg = () => {
     const [participantId,setParticipantId] = useState()
     const token = JSON.parse(localStorage.getItem("accessToken"))
 
-    const {decodedToken} = useJwt(token)
+    // const {decodedToken} = useJwt(token)
+
 
     useEffect(() => {
         // console.log(token)
+        const token = JSON.parse(localStorage.getItem("accessToken"))
         if(token == null){
             alert('Please login first.');
             navigate("/login", { replace: true });
-        }else if(decodedToken){
+        }else{
+            const decodedToken = decodeToken(token)
             setParticipantId(decodedToken.id)
             getName(decodedToken.id,(val) => {
                 setUserName(val)

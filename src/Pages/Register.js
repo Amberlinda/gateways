@@ -23,15 +23,19 @@ import {
   InputLabel,
   InputAdornment,
   IconButton,
-  MenuItem
+  MenuItem,
+  Fab
 } from '@mui/material'
-
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Visibility,
   VisibilityOff,
+  ArrowBack
 } from '@mui/icons-material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { getCollegesHandler } from '../utils/helpers';
+import { useEffect } from 'react';
 
 const theme = createTheme({
   typography:{
@@ -49,14 +53,19 @@ export const Register  = () => {
   const navigate = useNavigate();
   const [showPassword,setShowPassword] = useState(false)
   const [collegeId,setCollegeId] = useState(1)
-  const [colleges,setColleges] = useState([
-    "CHRIST",
-    "St Joseph's",
-    "Jain"
-  ])
+  const [colleges,setColleges] = useState([])
+  const [loading,setLoading] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken")
+    if(token != null){
+      navigate("/user-dashboard",{replace:true})
+    }
+  },[])
 
   const onSubmitHandler = (data) => {
     console.log(data)
+    setLoading(true)
     const {name,email,password,college,phno} = data
     axios.post(`${url}/register`,{
       // body:{
@@ -74,6 +83,7 @@ export const Register  = () => {
         }else{
           alert(resp.data.response)
           if(resp.data.response == "success"){
+            setLoading(true)
             navigate("/login", { replace: true });
           }
         }
@@ -84,10 +94,25 @@ export const Register  = () => {
     })
   }
 
+  useEffect(() => {
+    getCollegesHandler((arr) => {
+      setColleges(arr)
+    })
+  },[])
+
   const reqSign= (<span style={{color:"red",fontSize:"18px"}}>*</span>);
 
   return (
     <ThemeProvider theme={theme}>
+      <Fab color="primary" aria-label="back" style={{
+        position: 'absolute',
+        top: 16,
+        left: 16,
+      }}>
+        <Link href="/" sx={{color:"#fff",lineHeight:"unset"}}>
+          <ArrowBack />
+        </Link>
+      </Fab>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -175,8 +200,8 @@ export const Register  = () => {
                     {...field}
                   >
                     {colleges.map((option,index) => (
-                      <MenuItem key={index} value={index}>
-                        {option}
+                      <MenuItem key={option.college_id} value={option.college_id}>
+                        {option.college_name}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -239,14 +264,26 @@ export const Register  = () => {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               /> */}
-              <Button
+              <LoadingButton
+                size="small"
+                type="submit"
+                // endIcon={<SendIcon />}
+                loading={loading}
+                loadingPosition="end"
+                variant="contained"
+                fullWidth
+                sx={{mt:2}}
+              >
+                Register
+              </LoadingButton>
+              {/* <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Register
-              </Button>
+              </Button> */}
               <Grid container>
                 {/* <Grid item xs>
                   <Link href="#" variant="body2">

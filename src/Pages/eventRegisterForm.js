@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import {UserDashboardSidebar} from '../Components/UserDashboardSidebar'
 import { url } from '../utils/constants'
 import { Controller, useForm } from 'react-hook-form'
-import { useJwt } from 'react-jwt'
+import { decodeToken, useJwt } from 'react-jwt'
 import {
     FormGroup,
     FormControlLabel,
@@ -24,6 +24,7 @@ import {
     Typography
 } from '@mui/material'
 import { getName } from "../utils/helpers";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
     palette:{
@@ -102,32 +103,12 @@ const ParticipantName = ({
 }
 
 const TeamEventForm = ({
-    // events,
+    events,
     token
 }) => {
 
-    const [events,setEvents] = useState([{
-        id:0,
-        name:"Mariothon (Hackathon)",
-        participants:4
-    },{
-        id:1,
-        name:"Vlogumentary (Vlogging)",
-        participants:3
-    },{
-        id:2,
-        name:"Lost in Age (Treasure Hunt)",
-        participants:5
-    },{
-        id:3,
-        name:"CodeShashtra (Coding-Debugging)",
-        participants:3
-    },{
-        id:4,
-        name:"BattleStars (Gaming)",
-        participants:5
-    }])
-    const [selectedEvent,setSelectedEvent] = useState(1)
+    
+    const [selectedEvent,setSelectedEvent] = useState(5)
     const [selectedEventErr,setSelectedEventErr] = useState(false)
     const [defaultParticipantId,setDefaultParticipantId] = useState("Participant id")
     const [defaultParticipantName,setDefaultParticipantName] = useState("Participant name")
@@ -137,6 +118,8 @@ const TeamEventForm = ({
     const [teamName,setTeamName] = useState() 
 
     const {control, handleSubmit,formState:{errors}} = useForm()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const decToken = decodedToken?.id
@@ -151,12 +134,12 @@ const TeamEventForm = ({
     const onSubmitHandler = (data) => {
 
         if(!selectedEvent){setSelectedEventErr(true); return}
-        console.log(iDs)
+        // console.log(iDs)
         const idArr = [
             defaultParticipantId,
             ...Object.values(iDs)
         ]
-        console.log(idArr)
+        // console.log(idArr)
         
         setSelectedEventErr(false)
         axios.post(`${url}/registerTeam`,{
@@ -168,7 +151,23 @@ const TeamEventForm = ({
                 authorization: `Bearer ${token}`
             }
         })
-        console.log(data)
+        .then(resp => {
+            console.log(resp)
+            console.log(resp.data)
+            if(resp.status === 200){
+                if(resp.data.response){
+                    alert(resp.data.response)
+                    if(resp.data?.status != "failed"){
+                        navigate("/user-dashboard")
+                    }
+                }
+            }
+            
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // console.log(data)
     }
 
     return(
@@ -190,8 +189,8 @@ const TeamEventForm = ({
                                 onChange={(e) => {setSelectedEvent(e.target.value); setIds({})}}
                             >
                                 {events.map((option,index) => (
-                                    <MenuItem key={option.id} value={option.id}>
-                                        {option.name}
+                                    <MenuItem key={option.event_id} value={option.event_id}>
+                                        {option.event_name}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -211,7 +210,7 @@ const TeamEventForm = ({
                             />
                         </Grid>
                         {events.map((el,index) => {
-                            if(el.id == selectedEvent){
+                            if(el.event_id == selectedEvent){
                                 return(
                                     <>
                                         <Grid item xs={12} sm={6}>
@@ -243,7 +242,7 @@ const TeamEventForm = ({
                                             />
                                         </Grid>
                                         {
-                                            [...Array(el.participants-1)].map((elem,ind) => (
+                                            [...Array(el.number-1)].map((elem,ind) => (
                                                 <ParticipantName 
                                                 ind={ind}
                                                 control={control}
@@ -281,6 +280,8 @@ const IndividualEventForm = ({
     const [selectedEvent,setSelectedEvent] = useState()
     const {decodedToken} = useJwt(token)
 
+    const navigate = useNavigate()
+
     const handleEventRegistration = (id) => {
         axios.post(`${url}/eventRegister`,{
             event_id:id
@@ -293,6 +294,7 @@ const IndividualEventForm = ({
             console.log(resp)
             if(resp.status === 200 && resp.statusText == "OK"){
                 alert(resp.data.response)
+                navigate("/user-dashboard")
             }
         })
         .catch((err) => {
@@ -348,6 +350,7 @@ const EventRegisterForm = () => {
     const [selectedForm,setSelectedForm] = useState("individual")
     const [events,setEvents] = useState([])
     const [accessToken,setAccessToken] = useState(JSON.parse(localStorage.getItem("accessToken")))
+    const [participantName,setParticipantName] = useState()
 
     const getEvents = () => {
         axios.get(`${url}/events`)
@@ -375,6 +378,13 @@ const EventRegisterForm = () => {
 
     useEffect(() => {
         getEvents();
+        const accTok = localStorage.getItem("accessToken")
+        if(accTok != null){
+            const decode = decodeToken(accTok)
+            getName(decode?.id,(name) => {
+                setParticipantName(name)
+            })
+        }
     },[])
 
 
@@ -389,7 +399,7 @@ const EventRegisterForm = () => {
                                 <div class="col-md-11">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h2>Hello John</h2>
+                                            <h2>Hello {participantName}</h2>
 
                                             <div class="col-md-9">
                                                 <p class="mt-5">
