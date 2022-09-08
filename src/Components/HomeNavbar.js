@@ -82,7 +82,7 @@ const HomeNavbar = () => {
               navigate("/login")
             }}
           >
-            Login
+            <Link style={{color:"#000000"}} to="/login">Login</Link>
           </button>
         </div>
       </nav>

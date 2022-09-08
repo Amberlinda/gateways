@@ -96,10 +96,12 @@ const EventSection = ({
 
     return(
         <>
+        
             <Box
                 sx={{
                 display: 'flex',
                 flexDirection: 'row',
+                flexWrap:"wrap",
                 p: 1,
                 m: 1,
                 borderRadius: 1,
@@ -108,9 +110,9 @@ const EventSection = ({
                 {/* d78627 */}
                 {events.map((obj,index) => (
                     <Item key={index} sx={{background:"#d78627"}}>
-                        <Card sx={{ width: 200, background:"#d78627" }}  >
+                        <Card sx={{ width:200,background:"#d78627" }}  >
                             <CardContent>
-                                <Typography variant="h5" component="div" sx={{fontSize:"20px",width:"50px"}}>
+                                <Typography variant="h6" style={{overflowX:"hidden"}}>
                                     {obj.event_name}
                                 </Typography>
                                 {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
