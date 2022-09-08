@@ -38,7 +38,10 @@ const HomeNavbar = () => {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/" style={{color: '#ffffff',fontWeight:"800"}}>
+              <a class="nav-link" href="/" style={{color: '#ffffff',fontWeight:"800"}}
+              onClick={e=>{
+                navigate("/")
+              }}>
                 Home <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -82,7 +85,7 @@ const HomeNavbar = () => {
               navigate("/login")
             }}
           >
-            <Link style={{color:"#000000"}} to="/login">Login</Link>
+            Login
           </button>
         </div>
       </nav>
