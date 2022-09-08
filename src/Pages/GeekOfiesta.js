@@ -1,39 +1,12 @@
 import React from 'react'
 import logo from "../assets/logo.png"
+import {useNavigate} from "react-router-dom";
+import HomeNavbar from "../Components/HomeNavbar";
 export const GeekOfiesta = () => {
+    let navigate = useNavigate();
     return (
         <>
-            <nav class="navbar navbar-expand-lg navbar-dark navbar-custom" style={{ backgroundColor: "#18181F" }}>
-                <a class="navbar-brand" href="#"><img class="img-fluid" src={logo} width="200" height="100" alt="" /></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" style={{ color: "#ffffff" }}>Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" style={{ color: "#ffffff" }}>Events <span
-                                class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" style={{ color: "#ffffff" }}>Brochure <span
-                                class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" style={{ color: "#ffffff" }}>About Us <span
-                                class="sr-only">(current)</span></a>
-                        </li>
-
-                    </ul>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"
-                        style={{ backgroundColor: "#CCFF28", color: "#000" }}>Login</button>
-                </div>
-            </nav>
-
+            <HomeNavbar/>
             <div class="container-fluid"style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
 
                 <div class="row align-items-center" style={{  height: "90vh" }}>
@@ -82,7 +55,10 @@ export const GeekOfiesta = () => {
                             </a>
                         </p>
                         
-                        <button class="btn btn-lg" style={{backgroundColor: "#CCFF28"}}>Register Now</button>
+                        <button class="btn btn-lg" style={{backgroundColor: "#CCFF28"}}
+                        onClick={e=>{
+                            navigate("/user-dashboard")
+                          }}>Register Now</button>
 
                     </div>
                 </div>

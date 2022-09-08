@@ -36,8 +36,11 @@ const HomeNavbar = () => {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/" style={{color: '#ffffff'}}>
-                Home <span class="sr-only">(current)</span>
+              <a class="nav-link" href="/" style={{color: '#ffffff'}}
+              onClick={e=>{
+                navigate("/")
+              }}>
+                Home <span class="sr-only ">(current)</span>
               </a>
             </li>
             <li class="nav-item active">
@@ -82,8 +85,10 @@ const HomeNavbar = () => {
             class="btn btn-outline-success my-2 my-sm-0"
             type="submit"
             style={{backgroundColor: "#CCFF28", color: "#000", fontWeight:"800"}}
-          >
-            <Link style={{color:"#000000"}} to="/login">Login</Link>
+            onClick={e=>{
+              navigate("/login")
+            }}>
+          Login
           </button>
         </div>
       </nav>
