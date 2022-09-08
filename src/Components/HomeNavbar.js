@@ -41,7 +41,10 @@ const HomeNavbar = () => {
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#events" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#events" style={{color: '#ffffff'}}
+              onClick={e=>{
+                navigate("/")
+              }}>
                 Events <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -67,7 +70,10 @@ const HomeNavbar = () => {
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#contact" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#contact" style={{color: '#ffffff'}}
+              onClick={e=>{
+                navigate("/")
+              }}>
                 Contact <span class="sr-only">(current)</span>
               </a>
             </li>
