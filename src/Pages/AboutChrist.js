@@ -37,7 +37,7 @@ export const AboutChrist = () => {
             <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw"}}>
 
                 <div class="row align-items-center justify-content-center" style={{ height: "90vh"}}>
-                    <div class="row align-items-center" style={{ backgroundImage: `url(${christ})`,height: "50vh",width:"100%",backgroundRepeat: "no-repeat",backgroundSize:"cover"}}>
+                    <div class="row align-items-center" style={{ backgroundImage: `url(${christ})`,height: "50vh",width:"100%",backgroundRepeat: "no-repeat",backgroundSize:"cover",overflowY:"hidden"}}>
                     <div class="col-md-12" >
                         <p class="justify-content-center text-center"  >
                             <h1 class="title-new justify-content-center text-center" style={{color:"black"}}>CHRIST (Deemed to be University)
