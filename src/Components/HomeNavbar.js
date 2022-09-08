@@ -32,12 +32,12 @@ const HomeNavbar = () => {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="/" style={{color: '#ffffff'}}>
                 Home <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#events" style={{color: '#ffffff'}}>
                 Events <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -47,15 +47,20 @@ const HomeNavbar = () => {
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#about" style={{color: '#ffffff'}}>
                 About Us <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#contact" style={{color: '#ffffff'}}>
+                Contact <span class="sr-only">(current)</span>
               </a>
             </li>
           </ul>
           <button
             class="btn btn-outline-success my-2 my-sm-0"
             type="submit"
-            style={{backgroundColor: "#CCFF28", color: "#000"}}
+            style={{backgroundColor: "#CCFF28", color: "#000", fontWeight:"800"}}
           >
             Login
           </button>

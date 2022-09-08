@@ -353,11 +353,11 @@ main .post-content .post-meta {
   padding: 0%;
   overflow-x: hidden;
 }
-.btn-primary{
-  background-color: #CCFF28;
-  border-color: #CCFF28;
-  color: #000000;
-}
+/* .btn-primary{
+  /* background-color: #CCFF28; */
+  /* border-color: #CCFF28; */
+  /* color: #000000; */
+/* } */
 .nav-link .nav-item{
   color: #fff;
 }
@@ -413,6 +413,14 @@ main .post-content .post-meta {
   font-family: KrossNeueGrotesk-Light;
 }
 
+.p-5{
+  padding: 1rem!important;
+}
+
+.btn-lg{
+  font-weight: 800;
+}
+
 @media only screen and (max-width: 600px) {
   .title {
       margin-left: 0rem;
@@ -426,8 +434,20 @@ main .post-content .post-meta {
       margin-left: 0%;
       margin-top: 0%;
   }
+  .content-event-new{
+    font-size: 2.5rem;
+    font-weight: 700;
+}
   .p-3{
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
+  }
+  .p-4{
+    margin-left: 4.5rem;
+    margin-right: 4.5rem;
+  }
+  .p-5{
+    margin-left: 0rem;
+    margin-right: 0rem;
   }
 }
