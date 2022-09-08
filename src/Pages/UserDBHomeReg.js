@@ -1,6 +1,6 @@
 import {UserDashboardSidebar} from "../Components/UserDashboardSidebar";
 import {Link, useNavigate} from "react-router-dom";
-import { useJwt } from 'react-jwt'
+import { useJwt, decodeToken } from 'react-jwt'
 import { useEffect, useState } from "react";
 import { getName } from "../utils/helpers";
 import {
@@ -141,7 +141,6 @@ export const UserDBHomeReg = () => {
     const navigate = useNavigate()
     const [userName,setUserName] = useState()
     const [participantId,setParticipantId] = useState()
-
     const token = JSON.parse(localStorage.getItem("accessToken"))
 
     const {decodedToken} = useJwt(token)
