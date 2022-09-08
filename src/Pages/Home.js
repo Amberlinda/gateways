@@ -175,7 +175,7 @@ export const Home = () => {
                     Hackathon? Check. IoT? Check. Crazy idea? Bring yours
                     forward
                   </p>
-                  <a href="/mariothon" class="btn btn-primary">
+                  <a href="/mariothon" class="btn btn-primary" style={{marginTop:"2rem"}}>
                     Read More
                   </a>
                 </div>
@@ -190,8 +190,8 @@ export const Home = () => {
                 ></img>
                 <div class="card-body">
                   <h5 class="card-title">Geek O Fiesta</h5>
-                  <p class="card-text">A race to success against all odds</p><br/><br/>
-                  <a href="/geekOfiesta" class="btn btn-primary">
+                  <p class="card-text">A race to success against all odds</p>
+                  <a href="/geekOfiesta" class="btn btn-primary" style={{marginTop:"4rem"}}>
                     Read More
                   </a>
                 </div>
@@ -205,7 +205,7 @@ export const Home = () => {
                   <p class="card-text">
                     Wield your weapons against bugs, go forth with your tools!
                   </p>
-                  <a href="/codeshastra" class="btn btn-primary">
+                  <a href="/codeshastra" class="btn btn-primary" style={{marginTop:"3.5rem"}}>
                     Read More
                   </a>
                 </div>
@@ -216,8 +216,8 @@ export const Home = () => {
                 <img class="card-img-top" src={uiux} alt="Card image cap"></img>
                 <div class="card-body">
                   <h5 class="card-title">UI picasso</h5>
-                  <p class="card-text">Journey towards a mysterious palette </p><br/><br/>
-                  <a href="/uipicasso" class="btn btn-primary">                    
+                  <p class="card-text">Journey towards a mysterious palette </p>
+                  <a href="/uipicasso" class="btn btn-primary"style={{marginTop:"3.5rem"}}>                    
                     Read More
                   </a>
                 </div>
@@ -257,9 +257,9 @@ export const Home = () => {
                     alt="Card image cap"
                   ></img>
                   <div class="card-body">
-                    <h5 class="card-title">Lens O Moment</h5>
+                    <h5 class="card-title">Lens a Moment</h5>
                     <p class="card-text" style={{fontSize:"0.9rem"}}>Stay in the moment, by capturing the moment</p>
-                    <a href="/lensamoment" class="btn btn-primary">
+                    <a href="/lensamoment" class="btn btn-primary" style={{marginTop:"2rem"}}>
                       Read More
                     </a>
                   </div>
