@@ -162,9 +162,15 @@ export const UserDBHomeReg = () => {
         }
     },[])
 
+    const handleSignOut = () => {
+        localStorage.removeItem("accessToken")
+        navigate("/login",{replace:true})
+        document.location.reload()
+    }
+
     return (
         <>
-            <UserDashboardSidebar/>
+            {/* <UserDashboardSidebar/> */}
             <main>
                 <div className="site-section">
                     <div className="container-fluid">
@@ -213,6 +219,14 @@ export const UserDBHomeReg = () => {
 
                                             </p>
                                         </div>
+                                        <Box component="div" sx={{
+                                            display:"flex",
+                                            justifyContent:"right"
+                                        }}>
+                                            <Button variant="contained" sx={{mt:1}} onClick={handleSignOut}>
+                                                Sign Out
+                                            </Button>
+                                        </Box>
                                     </div>
                                 </div>
                             </div>

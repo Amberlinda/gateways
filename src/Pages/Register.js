@@ -77,13 +77,13 @@ export const Register  = () => {
       }
     )
     .then(resp => {
+      setLoading(false)
       if(resp.status === 200){
         if(!resp.data.response){
           alert(resp.data)
         }else{
           alert(resp.data.response)
           if(resp.data.response == "success"){
-            setLoading(true)
             navigate("/login", { replace: true });
           }
         }
@@ -91,6 +91,7 @@ export const Register  = () => {
     })
     .catch(error => {
       console.log(error)
+      setLoading(false)
     })
   }
 

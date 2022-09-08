@@ -66,6 +66,7 @@ export const Login = () => {
     )
     .then(resp => {
       console.log(resp)
+      setLoading(false)
       if(resp.status === 200 && resp.statusText == "OK"){
         setLoading(false)
         alert("Login successful");
@@ -74,6 +75,7 @@ export const Login = () => {
       }
     })
     .catch(error => {
+      setLoading(false)
       console.log(error)
       alert("Invalid credentials");
     })

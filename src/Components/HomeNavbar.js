@@ -51,7 +51,9 @@ const HomeNavbar = () => {
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#" style={{color: '#ffffff',fontWeight:"800"}}>
+              <a class="nav-link" href="https://heyzine.com/flip-book/0fee58bdde.html" 
+              target="_blank"
+              style={{color: '#ffffff',fontWeight:"800"}}>
                 Brochure <span class="sr-only">(current)</span>
               </a>
             </li>
