@@ -273,18 +273,13 @@ const IndividualEventForm = ({
     token
 }) => {
 
-    const {handleSubmit, register} = useForm()
+    const {handleSubmit, control} = useForm()
     const [selectedEvent,setSelectedEvent] = useState()
     const {decodedToken} = useJwt(token)
 
-
-    const onSubmitHandler = (data) => {
-        if(!selectedEvent){
-            alert("Select atleast 1 event.");
-            return
-        }
+    const handleEventRegistration = (id) => {
         axios.post(`${url}/eventRegister`,{
-            event_id:selectedEvent
+            event_id:id
         },{
             headers:{
                 authorization: `Bearer ${token}`
@@ -292,7 +287,7 @@ const IndividualEventForm = ({
         })
         .then(resp => {
             console.log(resp)
-            if(resp.status === 200){
+            if(resp.status === 200 && resp.statusText == "OK"){
                 alert(resp.data.response)
             }
         })
@@ -300,24 +295,44 @@ const IndividualEventForm = ({
             console.log(err)
         })
     }
+
+
+    const onSubmitHandler = (data) => {
+        console.log(data)
+        if (Object.values(data).indexOf(true) === -1){alert("Select atleaat 1 event");return}
+
+        Object.keys(data).forEach((key,index) => {
+            if(data[key]){
+                handleEventRegistration(key)
+            }
+        })
+        
+    }
     
     return(
         <>
             <div class="form-check">
-                <FormControl>
-                    <RadioGroup
-                        aria-labelledby="demo-controlled-radio-buttons-group"
-                        name="controlled-radio-buttons-group"
-                        value={selectedEvent}
-                        onChange={(e) => setSelectedEvent(e.target.value)}
-                    >
-                        {events?.map((el,index) => (
-                            <FormControlLabel value={el.event_id} control={<Radio sx={{color:"#fff"}}/>} label={el.event_name} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
-                <Box component="div">
-                    <Button variant="contained" onClick={onSubmitHandler}>Register Now</Button>
+                <Box component="form" onSubmit={handleSubmit(onSubmitHandler)}>
+                    
+                    {events?.map((el,index) => (
+                        <p>
+                            <Controller
+                                name={`${el.event_id}`}
+                                control={control}
+                                render={({field}) => (
+                                    <FormControlLabel 
+                                        value={el.event_id} 
+                                        control={<Checkbox sx={{color:"#fff"}}/>} 
+                                        label={el.event_name}
+                                        {...field} 
+                                    />
+
+                                )}
+                            />
+                        </p>
+                    ))}
+                    <Button type="submit" variant="contained" >Register Now</Button>
+
                 </Box>
             </div>
         </>

@@ -3,28 +3,133 @@ import {Link, useNavigate} from "react-router-dom";
 import { useJwt } from 'react-jwt'
 import { useEffect, useState } from "react";
 import { getName } from "../utils/helpers";
+import {
+    Typography,
+    Button,
+    CardActions,
+    Card,
+    CardContent,
+    Grid,
+    Box,
+    
+} from '@mui/material'
+import axios from "axios";
+import { url } from "../utils/constants";
+import { styled } from "@mui/material/styles";
+import { purple } from "@mui/material/colors";
 
-const EventSection = () => {
+function Item(props) {
+    const { sx, ...other } = props;
+    return (
+      <Box
+        sx={{
+          p: 1,
+          m: 1,
+          bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : 'grey.100'),
+          color: (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800'),
+          border: '1px solid',
+          borderColor: (theme) =>
+            theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300',
+          borderRadius: 2,
+          fontSize: '0.875rem',
+          fontWeight: '700',
+          ...sx,
+        }}
+        {...other}
+      />
+    );
+  }
 
-    const [events,setEvents] = useState([1,2,3])
+  const ColorButton = styled(Button)(({ theme }) => ({
+    color: "#fff",
+    backgroundColor: "#000",
+    '&:hover': {
+      backgroundColor: "#2f2f2f",
+    },
+  }));
+
+const EventSection = ({
+    token
+}) => {
+
+    const [events,setEvents] = useState([])
+
+    const getEvents = (endPoint,success) => {
+        axios.get(`${url}${endPoint}`,{
+            headers:{
+                authorization:`Bearer ${token}`
+            }
+        })
+        .then((resp) => {
+            success(resp.data.data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
+    useEffect(() => {
+
+        let newEvents = []
+
+        getEvents("/usersoloEvent",(arr) => {
+            arr.forEach(obj => {
+                newEvents.push({
+                    event_name:obj.event_name    
+                })
+            })
+            // setEvents(newEvents)
+        })
+        getEvents("/userTeamEvent",(arr) => {
+            // newEvents = [...events]
+            console.log(newEvents)
+            arr.forEach(obj => {
+                newEvents.push({
+                    event_name:obj.event_name    
+                })
+            })
+            setEvents(newEvents)
+        })
+    },[token])
+
+    
 
     return(
         <>
-            <div className="card-group">
-                {events.map(obj => (
-                    <div className="card c-custom">
-                        <img src="https://www.brookings.edu/wp-content/uploads/2017/11/metro_20171121_tech-empowers-tech-polarizes-mark-muro.jpg"
-                            className="card-img-top img-fluid" alt="..."/>
-
-                        <div className="card-body">
-                            <h5 className="card-title">Event Name</h5>
-                            <p className="card-text c-custom">Time</p>
-                            <button type="button" className="card-text btn btn-dark"><small
-                                    className="text-muted">See Details</small></button>
-                        </div>
-                    </div>
+            <Box
+                sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                p: 1,
+                m: 1,
+                borderRadius: 1,
+                }}
+            >
+                {/* d78627 */}
+                {events.map((obj,index) => (
+                    <Item key={index} sx={{background:"#d78627"}}>
+                        <Card sx={{ width: 200, background:"#d78627" }}  >
+                            <CardContent>
+                                <Typography variant="h5" component="div" sx={{fontSize:"20px",width:"50px"}}>
+                                    {obj.event_name}
+                                </Typography>
+                                {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                    time
+                                </Typography> */}
+                            </CardContent>
+                            <CardActions>
+                                <ColorButton
+                                size="small" 
+                                variant="contained">
+                                    <Link to="/" style={{color:"#fff"}}>More Details</Link>
+                                </ColorButton>
+                                
+                            </CardActions>
+                        </Card>
+                    </Item>
+                    
                 ))}
-            </div>
+            </Box>
         </>
     )
 }
@@ -66,7 +171,7 @@ export const UserDBHomeReg = () => {
                                         <p className="mt-5">
                                         <h3>Your Events</h3>
                                         </p>
-                                        <EventSection/>
+                                        <EventSection token={token}/>
                                         <div className="col-md-6">
                                             <div className="row">
                                                 <h4 className="mt-5">
@@ -74,7 +179,14 @@ export const UserDBHomeReg = () => {
                                                     event, to double
                                                     the fun!
                                                 </h4>
-                                                <button type="button" className="btn btn-info">Register Now</button>
+                                                <button type="button" className="btn btn-info">
+                                                    <Link to="/user-register-form" 
+                                                    style={{
+                                                        color:"#000",
+                                                        background:"ccff28"
+                                                    }}
+                                                    >Register Now</Link>
+                                                </button>
                                             </div>
                                         </div>
                                     
