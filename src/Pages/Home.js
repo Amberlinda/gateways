@@ -7,10 +7,19 @@ import photography from "../assets/lens a moment.png";
 import marithon from "../assets/mariothon web.png";
 import uiux from "../assets/ui ux.png";
 import vlog from "../assets/vlog.png";
-
-
+import { scroller } from "react-scroll";
 import HomeNavbar from "../Components/HomeNavbar";
+import React,{useEffect} from "react";
+import { useLocation } from "react-router-dom";
 export const Home = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const scrollToSection = () => {
+    scroller.scrollTo(id);
+  };
+  useEffect (()=> {
+    scrollToSection();    
+  });
   return (
     <div style={{ backgroundColor: "#ffffff" }}>
       <HomeNavbar />
@@ -19,14 +28,14 @@ export const Home = () => {
           <div class="col-12">
             <p>
               <h1 class="title">
-                Gateways
+                Gateways {id}
                 <br></br>
                 2022
               </h1>
               <div class="content">
-                <p>A catchy title</p>
+                <p>From pagers to iPhones, when did we all grow up?</p>
                 <div class="btn btn-lg" style={{ backgroundColor: "#CCFF28" }}>
-                  Register Now
+                  REGISTER NOW
                 </div>
               </div>
             </p>

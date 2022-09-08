@@ -96,6 +96,7 @@ const EventSection = ({
 
     return(
         <>
+        
             <Box
                 sx={{
                 display: 'flex',
