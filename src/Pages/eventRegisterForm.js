@@ -115,7 +115,7 @@ const TeamEventForm = ({
     const {decodedToken} = useJwt(token)
     const [participants,setParticipants] = useState([])
     const [iDs,setIds] = useState({})
-    const [teamName,setTeamName] = useState() 
+    const [teamName,setTeamName] = useState(null) 
 
     const {control, handleSubmit,formState:{errors}} = useForm()
 
@@ -130,15 +130,24 @@ const TeamEventForm = ({
         
     },[decodedToken,token])
 
+    const hasDuplicates = (array) => {
+        return (new Set(array)).size !== array.length;
+    }
+
     
     const onSubmitHandler = (data) => {
 
-        if(!selectedEvent){setSelectedEventErr(true); return}
+        if(!selectedEvent || !teamName){/*setSelectedEventErr(true);*/ return}
+        
         // console.log(iDs)
         const idArr = [
             defaultParticipantId,
             ...Object.values(iDs)
         ]
+        if(hasDuplicates(idArr)){
+            alert("Duplicate Ids.")
+            return
+        }
         // console.log(idArr)
         
         setSelectedEventErr(false)
@@ -160,6 +169,8 @@ const TeamEventForm = ({
                     if(resp.data?.status != "failed"){
                         navigate("/user-dashboard")
                     }
+                }else{
+                    alert(resp.data)
                 }
             }
             
