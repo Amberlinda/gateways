@@ -24,9 +24,9 @@ export const Home = () => {
                 2022
               </h1>
               <div class="content">
-                <p>A catchy title</p>
+                <p>From pagers to iPhones, when did we all grow up?</p>
                 <div class="btn btn-lg" style={{ backgroundColor: "#CCFF28" }}>
-                  Register Now
+                  REGISTER NOW
                 </div>
               </div>
             </p>

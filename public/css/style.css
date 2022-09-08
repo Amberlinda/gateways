@@ -375,7 +375,7 @@ main .post-content .post-meta {
   margin-top: 1rem;
   margin-left: 15rem;
   color: #fff;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-size: 2rem;
   font-family: KrossNeueGrotesk-Light;
 }
