@@ -20,6 +20,7 @@ import {Login} from "./Pages/Login";
 import EventRegisterForm from "./Pages/eventRegisterForm";
 
 function App() {
+    console.log("hello")
     return (
         <BrowserRouter>
             <Routes>
