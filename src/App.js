@@ -18,7 +18,18 @@ import {ParticipantsOrganizer} from "./Pages/ParticipantsOrganizer";
 import {Register} from "./Pages/Register";
 import {Login} from "./Pages/Login";
 import EventRegisterForm from "./Pages/eventRegisterForm";
-
+import {Battlestars} from "./Pages/Battlestars";
+import {Codeshastra} from "./Pages/Codeshastra";
+import {EventX} from  "./Pages/EventX";
+import {GeekOfiesta} from "./Pages/GeekOfiesta";
+import {Lensamoment} from "./Pages/Lensamoment";
+import {Lostinages} from "./Pages/Lostinages";
+import {Mariothon} from "./Pages/Mariothon";
+import {Uipicasso} from "./Pages/Uipicasso";
+import {Vlogumentary} from "./Pages/Vlogumentary";
+import {AboutChrist} from "./Pages/AboutChrist";
+import {AboutComputerScience} from "./Pages/AboutComputerScience";
+import {AboutGateways} from "./Pages/AboutGateways";
 function App() {
     return (
         <BrowserRouter>
@@ -41,6 +52,18 @@ function App() {
                 <Route path={'/participants-organizer'} element={<ParticipantsOrganizer/>}/>
                 <Route path={'/register'} element={<Register/>}/>
                 <Route path={'/login'} element={<Login/>}/>
+                <Route path={'/battlestars'} element={<Battlestars/>} />
+                <Route path={'/codeshastra'} element={<Codeshastra/>} />
+                <Route path={'/eventX'} element={<EventX/>} />
+                <Route path={'/geekOfiesta'} element={<GeekOfiesta/>} />
+                <Route path={'/lensamoment'} element={<Lensamoment/>} />
+                <Route path={'/lostinages'} element={<Lostinages/>} />
+                <Route path={'/mariothon'} element={<Mariothon/>} />
+                <Route path={'/uipicasso'} element={<Uipicasso/>} />
+                <Route path={'/vlogumentary'} element={<Vlogumentary/>} />
+                <Route path={'/aboutChrist'} element={<AboutChrist/>} />
+                <Route path={'/aboutComputerScienceDepartment'} element={<AboutComputerScience/>} />
+                <Route path={'/aboutGateways'} element={<AboutGateways/>} />
             </Routes>
         </BrowserRouter>
     );
