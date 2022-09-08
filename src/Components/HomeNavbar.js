@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import image from "../assets/logo.png";
 
 
 
 const HomeNavbar = () => {
+  let navigate = useNavigate();
   return (
     <div>
       <nav
@@ -50,12 +51,18 @@ const HomeNavbar = () => {
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/schedule" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#" style={{color: '#ffffff'}}
+               onClick={e=>{
+                navigate("/schedule")
+              }}>
                 Schedule <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/#about" style={{color: '#ffffff'}}>
+              <a class="nav-link" href="#about" style={{color: '#ffffff'}}
+               onClick={e=>{
+                navigate("/")
+              }}>
                 About Us <span class="sr-only">(current)</span>
               </a>
             </li>
