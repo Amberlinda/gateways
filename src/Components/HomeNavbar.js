@@ -70,7 +70,7 @@ const HomeNavbar = () => {
             type="submit"
             style={{backgroundColor: "#CCFF28", color: "#000", fontWeight:"800"}}
           >
-            Login
+            <Link style={{color:"#000000"}} to="/login">Login</Link>
           </button>
         </div>
       </nav>
