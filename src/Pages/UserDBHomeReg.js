@@ -63,8 +63,10 @@ const EventSection = ({
         .then((resp) => {
             success(resp.data.data)
         })
-        .catch((err) => {
-            console.log(err)
+        .catch((error) => {
+            if(error.response.data){
+                alert(error.response?.data?.response);
+              }
         })
     }
 

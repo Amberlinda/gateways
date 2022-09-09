@@ -66,16 +66,18 @@ export const Register  = () => {
 
   const onSubmitHandler = (data) => {
     console.log(data)
-    setLoading(true)
-    const {name,email,password,college,phno,course} = data
+    // setLoading(true)
+    const {name,email,password,phno,course,other} = data
     axios.post(`${url}/register`,{
       // body:{
         Name:name,
         Email:email,
         password:password,
-        college_id:college,
+        college_id:collegeId,
         ph_no:phno,
-        course:course
+        course:course,
+        type:collegeId === -1 ? 1 : 0,
+        collegeName: other
       }
     )
     .then(resp => {
@@ -92,8 +94,10 @@ export const Register  = () => {
       }
     })
     .catch(error => {
-      console.log(error)
       setLoading(false)
+      if(error.response.data){
+        alert(error.response?.data?.response);
+      }
     })
   }
 
@@ -199,16 +203,36 @@ export const Register  = () => {
                     autoFocus
                     error={errors.college}
                     value={collegeId}
-                    onChange={(e) => setCollegeId(e.target.value)} 
-                    {...field}
+                    onChange={(e) => {setCollegeId(e.target.value);}} 
+                    // {...field}
                   >
                     {colleges.map((option,index) => (
                       <MenuItem key={option.college_id} value={option.college_id}>
                         {option.college_name}
                       </MenuItem>
                     ))}
+                    <MenuItem key="other" value={-1}>
+                      Other
+                    </MenuItem>
                   </TextField>
               )}/>
+              <Controller
+                name="other"
+                control={control}
+                rules={{
+                  required: collegeId == -1
+                }}
+                render={({ field }) => 
+                <TextField 
+                  disabled={collegeId != -1}
+                  error={errors.other} 
+                  margin="normal"
+                  fullWidth
+                  label="College name"
+                  autoFocus
+                  {...field} />}
+              />
+
               <Controller
                 name="course"
                 control={control}

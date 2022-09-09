@@ -31,7 +31,6 @@ import {AboutChrist} from "./Pages/AboutChrist";
 import {AboutComputerScience} from "./Pages/AboutComputerScience";
 import {AboutGateways} from "./Pages/AboutGateways";
 function App() {
-    console.log("hello")
     return (
         <BrowserRouter>
             <Routes>

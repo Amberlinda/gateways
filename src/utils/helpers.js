@@ -13,7 +13,10 @@ export const getName = (part_id,success) => {
             return 
         }
     })
-    .catch(err => {
+    .catch(error => {
+        if(error.response.data){
+            alert(error.response?.data?.response);
+          }
         return null
     })
 }

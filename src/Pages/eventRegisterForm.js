@@ -20,12 +20,19 @@ import {
     InputLabel,
     Typography,
     Link,
-    Fab
+    Fab,
+    OutlinedInput,
+    InputAdornment,
+    IconButton,
+    FormControl
 } from '@mui/material'
-import { ArrowBack } from '@mui/icons-material'
+import { ArrowBack, ContentCopy } from '@mui/icons-material'
 import { getName } from "../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import BasicModal from "../Components/basicModal";
+import { Modal } from "antd";
+import schedule from '../assets/schedule.jpg'
+import ImageModal from "../Components/imageModal";
 
 const theme = createTheme({
     palette:{
@@ -47,8 +54,10 @@ const ParticipantName = ({
     const [participantName,setParticipantName] = useState("Participant name")
 
 
-    const handleIdChange = (event) => {
-        const val = event.target.value
+    const handleIdChange = (val) => {
+
+        if(!val){return}
+
         setIds({
             ...iDs,
             [ind]:val
@@ -85,6 +94,9 @@ const ParticipantName = ({
                     label={`Partipant name #${ind+2}`}
                     autoFocus
                     disabled
+                    InputLabelProps={{
+                        shrink: true,
+                      }}
                 />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -95,8 +107,30 @@ const ParticipantName = ({
                     id={`partipant_id_${ind+2}`}
                     label={`Partipant id #${ind+2}`}
                     value={participantId}
-                    onChange={handleIdChange}
+                    onChange={(e) => handleIdChange(e.target.value)}
                     autoFocus
+                    InputProps={{
+                        endAdornment: (<InputAdornment position="end">
+                            <IconButton
+                            // aria-label="toggle password visibility"
+                            onClick={(event) => {
+                                navigator.clipboard.readText()
+                                    .then(cliptext => (
+                                        handleIdChange(cliptext)
+                                    ),
+                                    err => console.log(err)
+                                );
+                            }}
+                            edge="end"
+                            >
+                                <ContentCopy/>
+                            </IconButton>
+                        </InputAdornment>)
+
+                    }}
+                    InputLabelProps={{
+                        shrink:true
+                    }}
                 />
             </Grid>
         </>
@@ -118,6 +152,7 @@ const TeamEventForm = ({
     const [iDs,setIds] = useState({})
     const [teamName,setTeamName] = useState(null) 
     const [showModal,setShowModal] = useState(true)
+    const [showHackModal,setShowHackModal] = useState(false)
 
     const {control, handleSubmit,formState:{errors}} = useForm()
     const navigate = useNavigate()
@@ -176,8 +211,10 @@ const TeamEventForm = ({
             }
             
         })
-        .catch(err => {
-            console.log(err)
+        .catch(error => {
+            if(error.response.data){
+                alert(error.response?.data?.response);
+              }
         })
         // console.log(data)
     }
@@ -189,9 +226,9 @@ const TeamEventForm = ({
             </p> */}
             <ThemeProvider theme={theme}>
                 <BasicModal
-                        open={showModal}
-                        onClose={() => setShowModal(false)}
-                        heading="General Instructions"
+                    open={showModal}
+                    onClose={() => setShowModal(false)}
+                    heading="General Instructions"
                     subHeading="Refer the video to know more about the registration workflow"
                     instructions = {[
                         "Participants are requested to be present at the venue of their events 15 minutes before the event starts.",
@@ -200,8 +237,20 @@ const TeamEventForm = ({
                         "People participating in vlogging and photography events can participate in other events simultaneously, given that they manage their time accordingly. ",
                         "People participating in the vlogging event can come to campus by 7:00 AM to capture clips",
                         "Participants eliminated in the first round of the hackathon can register for other events on the website from their account.",
-                        "Details about Event X will be provided on-spot."
+                        "Details about Event X will be provided on-spot.",
+                        "Participants are requested to refer the schedule to avoid overlspping of event timings.",
+                        "All team members should create an account and the team leader should copy their participant ID to register"
                     ]}
+                />
+                <BasicModal
+                    open={showHackModal}
+                    onClose={() => setShowHackModal(false)}
+                    heading="General Instructions"
+                    instructions = {[
+                        "Participants should mail there topic to gateways.hackathon@gmail.com before 13 September",
+                        "Participants should send ideas to 'gateways.hackathon@gmail.com'"
+                    ]}
+                    showBtn={true}
                 />
                 <Box component="form" noValidate onSubmit={handleSubmit(onSubmitHandler)}>
                     <Grid container spacing={2} xs={7} mt={2}>
@@ -209,11 +258,15 @@ const TeamEventForm = ({
                             <Select
                                 id="event"
                                 value={selectedEvent}
-                                defaultValue={1}
                                 label="Select an event"
                                 fullWidth
                                 error={selectedEventErr}
-                                onChange={(e) => {setSelectedEvent(e.target.value); setIds({})}}
+                                onChange={(e) => {
+                                    const id = e.target.value;
+                                    setSelectedEvent(id); 
+                                    setIds({})
+                                    if(id === 1){setShowHackModal(true)}
+                                }}
                             >
                                 {events.map((option,index) => (
                                     <MenuItem key={option.event_id} value={option.event_id}>
@@ -325,8 +378,10 @@ const IndividualEventForm = ({
                 navigate("/user-dashboard")
             }
         })
-        .catch((err) => {
-            console.log(err)
+        .catch((error) => {
+            if(error.response.data){
+                alert(error.response?.data?.response);
+              }
         })
     }
 
@@ -357,7 +412,8 @@ const IndividualEventForm = ({
                         "People participating in vlogging can also participate in photography events",
                         "People participating in vlogging and photography events can participate in other events simultaneously, given that they manage their time accordingly. ",
                         "People participating in the vlogging event can come to campus by 7:00 AM to capture clips",
-                        "Details about Event X will be provided on-spot."
+                        "Details about Event X will be provided on-spot.",
+                        "Participants are requested to refer the schedule to avoid overlspping of event timings."
                     ]}
                 />
                 <Box component="form" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -393,6 +449,8 @@ const EventRegisterForm = () => {
     const [events,setEvents] = useState([])
     const [accessToken,setAccessToken] = useState(JSON.parse(localStorage.getItem("accessToken")))
     const [participantName,setParticipantName] = useState()
+    const [showSchedule,setShowSchedule] = useState(false)
+    const [showVideo,setShowVideo] = useState(false)
 
     const getEvents = () => {
         axios.get(`${url}/events`)
@@ -429,6 +487,25 @@ const EventRegisterForm = () => {
         }
     },[])
 
+    const rightSideBtnStyle = {
+        display:"block",
+        marginLeft:"auto",
+        mr:5,
+        width:200,
+        textAlign:"center"
+    }
+
+    const modalStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 700,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
 
     return(
         <>
@@ -436,72 +513,88 @@ const EventRegisterForm = () => {
                 {/* <UserDashboardSidebar/> */}
                 <Link href="/user-dashboard" sx={{color:"#fff",lineHeight:"unset"}}>
                     <Fab color="primary" aria-label="back" style={{
-                    position: 'absolute',
+                    position: 'fixed',
                     top: 16,
                     left: 16,
+    
                     }}>
                         <ArrowBack />
                     </Fab>
                 </Link>
-                <main>
-                    <div class="site-section">
-                        <div class="container-fluid">
-                            <div class="row justify-content-center">
-                                <div class="col-md-11">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h2>Hello {participantName}</h2>
-
-                                            <div class="col-md-9">
-                                                <p class="mt-5">
-                                                    <h3 style={{display:"flex"}}>
-                                                        <TextField
-                                                            select
-                                                            label="Select"
-                                                            value={selectedForm}
-                                                            onChange={(e) => setSelectedForm(e.target.value)}
-                                                            helperText="Please select event type"
-                                                            sx={{color:"#fff"}}
-                                                            >
-                                                            {["individual","team"].map((option) => (
-                                                                <MenuItem key={option} value={option}>
-                                                                    {option}
-                                                                </MenuItem>
-                                                            ))}
-                                                        </TextField>
-                                                        {/* <div class="dropdown">
-                                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                            style={{textTransform:"capitalize"}}>
-                                                                {selectedForm}
-                                                            </button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                                {["individual","team"].map((el,index) => (
-                                                                    <button class="dropdown-item" type="button" 
-                                                                    onClick={() => setSelectedForm(el)}>{el}</button>
-                                                                ))}
-                                                            </div>
-                                                        </div> */}
-                                                        <Typography variant="h3" component="span" sx={{ml:2}}>events <span style={{fontSize:"15px"}}>(For individual events select any one event as time is overlaping)</span></Typography>
-                                                    </h3>
-                                                </p>
-                                                {selectedForm === "individual" ?
-                                                    <IndividualEventForm events={handleEventType(0)} token={accessToken}/>
-                                                    :selectedForm === "team" ?
-                                                    <TeamEventForm events={handleEventType(1)} token={accessToken}/> : null
-                                                }
-                                                
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                <Grid container sx={{mt:15,pl:12}}>
+                    <Grid item xs={7} >
+                        <TextField
+                            select
+                            label="Select"
+                            value={selectedForm}
+                            onChange={(e) => setSelectedForm(e.target.value)}
+                            helperText="Please select event type"
+                            sx={{color:"#fff"}}
+                            >
+                            {["individual","team"].map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                        {/* <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style={{textTransform:"capitalize"}}>
+                                {selectedForm}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                {["individual","team"].map((el,index) => (
+                                    <button class="dropdown-item" type="button" 
+                                    onClick={() => setSelectedForm(el)}>{el}</button>
+                                ))}
                             </div>
-                        </div>
-                    </div>
-                </main>
+                        </div> */}
+                        <Typography variant="h3" component="span" sx={{ml:2}}>events </Typography>
+                        {selectedForm === "individual" ?
+                            <IndividualEventForm events={handleEventType(0)} token={accessToken}/>
+                            :selectedForm === "team" ?
+                            <TeamEventForm events={handleEventType(1)} token={accessToken}/> : null
+                        }
+                    </Grid>
+                    <Grid item xs={5} sx={{justifyItems:"right"}}>
+                        <Button variant="contained" sx={rightSideBtnStyle} 
+                        onClick={() => setShowSchedule(true)}>
+                            See Schedule
+                        </Button>
+                        <Button variant="contained" sx={{mt:2,...rightSideBtnStyle}} href="https://heyzine.com/flip-book/0fee58bdde.html" target="_blank">
+                            Brochure
+                        </Button>
+                        {/* <Button variant="contained" sx={{mt:2,...rightSideBtnStyle}}
+                        onClick={() => setShowVideo(true)}
+                        >
+                            Refer form registration video
+                        </Button> */}
+                    </Grid>
+                    
+                </Grid>
+                <Modal
+                    open={showVideo}
+                    onClose={() => setShowVideo(false)}
+                >
+                    <Box component="div" sx={modalStyle}>
+                        <iframe 
+                            width="560" 
+                            height="315" 
+                            src="https://www.youtube.com/embed/EehbTWT4rOw" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                        ></iframe>
+                    </Box>
+
+                </Modal>
+                <ImageModal
+                    open={showSchedule}
+                    onClose={() => setShowSchedule(false)}
+                    />
             </ThemeProvider>
+            
         </>
     );
 }
