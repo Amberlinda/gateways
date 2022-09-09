@@ -83,15 +83,15 @@ export const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Fab color="primary" aria-label="back" style={{
-        position: 'absolute',
-        top: 16,
-        left: 16,
-      }}>
-        <Link href="/" sx={{color:"#fff",lineHeight:"unset"}}>
-          <ArrowBack />
-        </Link>
-      </Fab>
+      <Link href="/" sx={{color:"#fff",lineHeight:"unset"}}>
+        <Fab color="primary" aria-label="back" style={{
+          position: 'absolute',
+          top: 16,
+          left: 16,
+        }}>
+            <ArrowBack />
+        </Fab>
+      </Link>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid

@@ -190,14 +190,15 @@ export const UserDBHomeReg = () => {
                                                     event, to double
                                                     the fun!
                                                 </h4>
-                                                <button type="button" className="btn btn-info">
-                                                    <Link to="/user-register-form" 
+                                                <Link to="/user-register-form" 
                                                     style={{
                                                         color:"#000",
                                                         background:"ccff28"
-                                                    }}
-                                                    >Register Now</Link>
-                                                </button>
+                                                    }}>
+                                                    <button type="button" className="btn btn-info">
+                                                        Register Now
+                                                    </button>
+                                                </Link>
                                             </div>
                                         </div>
                                     

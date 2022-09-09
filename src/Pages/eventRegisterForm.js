@@ -8,9 +8,6 @@ import {
     FormGroup,
     FormControlLabel,
     Checkbox,
-    Radio,
-    RadioGroup,
-    FormControl,
     Button,
     Box,
     TextField,
@@ -21,10 +18,14 @@ import {
     Grid,
     Select,
     InputLabel,
-    Typography
+    Typography,
+    Link,
+    Fab
 } from '@mui/material'
+import { ArrowBack } from '@mui/icons-material'
 import { getName } from "../utils/helpers";
 import { useNavigate } from "react-router-dom";
+import BasicModal from "../Components/basicModal";
 
 const theme = createTheme({
     palette:{
@@ -116,9 +117,9 @@ const TeamEventForm = ({
     const [participants,setParticipants] = useState([])
     const [iDs,setIds] = useState({})
     const [teamName,setTeamName] = useState(null) 
+    const [showModal,setShowModal] = useState(true)
 
     const {control, handleSubmit,formState:{errors}} = useForm()
-
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -187,6 +188,21 @@ const TeamEventForm = ({
                 <h3>Team Events</h3>
             </p> */}
             <ThemeProvider theme={theme}>
+                <BasicModal
+                        open={showModal}
+                        onClose={() => setShowModal(false)}
+                        heading="General Instructions"
+                    subHeading="Refer the video to know more about the registration workflow"
+                    instructions = {[
+                        "Participants are requested to be present at the venue of their events 15 minutes before the event starts.",
+                        "If eliminated, participants are welcome to participate in other events, keeping the time constraints in mind",
+                        "People participating in vlogging can also participate in photography events",
+                        "People participating in vlogging and photography events can participate in other events simultaneously, given that they manage their time accordingly. ",
+                        "People participating in the vlogging event can come to campus by 7:00 AM to capture clips",
+                        "Participants eliminated in the first round of the hackathon can register for other events on the website from their account.",
+                        "Details about Event X will be provided on-spot."
+                    ]}
+                />
                 <Box component="form" noValidate onSubmit={handleSubmit(onSubmitHandler)}>
                     <Grid container spacing={2} xs={7} mt={2}>
                         <Grid item xs={12}>
@@ -290,6 +306,7 @@ const IndividualEventForm = ({
     const {handleSubmit, control} = useForm()
     const [selectedEvent,setSelectedEvent] = useState()
     const {decodedToken} = useJwt(token)
+    const [showModal,setShowModal] = useState(true)
 
     const navigate = useNavigate()
 
@@ -329,6 +346,20 @@ const IndividualEventForm = ({
     return(
         <>
             <div class="form-check">
+                <BasicModal
+                    open={showModal}
+                    onClose={() => setShowModal(false)}
+                    heading="General Instructions"
+                    subHeading="Refer the video to know more about the registration workflow"
+                    instructions = {[
+                        "Participants are requested to be present at the venue of their events 15 minutes before the event starts.",
+                        "If eliminated, participants are welcome to participate in other events, keeping the time constraints in mind",
+                        "People participating in vlogging can also participate in photography events",
+                        "People participating in vlogging and photography events can participate in other events simultaneously, given that they manage their time accordingly. ",
+                        "People participating in the vlogging event can come to campus by 7:00 AM to capture clips",
+                        "Details about Event X will be provided on-spot."
+                    ]}
+                />
                 <Box component="form" onSubmit={handleSubmit(onSubmitHandler)}>
                     
                     {events?.map((el,index) => (
@@ -402,7 +433,16 @@ const EventRegisterForm = () => {
     return(
         <>
             <ThemeProvider theme={theme}>
-                <UserDashboardSidebar/>
+                {/* <UserDashboardSidebar/> */}
+                <Link href="/user-dashboard" sx={{color:"#fff",lineHeight:"unset"}}>
+                    <Fab color="primary" aria-label="back" style={{
+                    position: 'absolute',
+                    top: 16,
+                    left: 16,
+                    }}>
+                        <ArrowBack />
+                    </Fab>
+                </Link>
                 <main>
                     <div class="site-section">
                         <div class="container-fluid">
