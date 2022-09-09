@@ -7,6 +7,7 @@ import axios from 'axios'
 import {url} from '../utils/constants'
 import { useNavigate } from 'react-router-dom'
 import { useJwt } from 'react-jwt'
+
 import {
   Paper,
   Link,
@@ -66,14 +67,15 @@ export const Register  = () => {
   const onSubmitHandler = (data) => {
     console.log(data)
     setLoading(true)
-    const {name,email,password,college,phno} = data
+    const {name,email,password,college,phno,course} = data
     axios.post(`${url}/register`,{
       // body:{
         Name:name,
         Email:email,
         password:password,
         college_id:college,
-        ph_no:phno
+        ph_no:phno,
+        course:course
       }
     )
     .then(resp => {
@@ -207,6 +209,23 @@ export const Register  = () => {
                     ))}
                   </TextField>
               )}/>
+              <Controller
+                name="course"
+                control={control}
+                rules={{
+                  required:true
+                }}
+                render={({ field }) => 
+                <TextField 
+                  error={errors.phno} 
+                  margin="normal"
+                  fullWidth
+                  label="Course"
+                  helperText="Example: MCA, MSc"
+                  autoFocus
+                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                  {...field} />}
+              />
               <Controller
                 name="phno"
                 control={control}

@@ -1,12 +1,16 @@
 import TresureHunt from "../assets/Tresure hunt.png";
 import code from "../assets/code.png";
-import eventX from "../assets/event x.png";
+import eventX from "../assets/event z.png";
 import gaming from "../assets/gaming.png";
 import itmanager from "../assets/it manager.png";
 import photography from "../assets/lens a moment.png";
 import marithon from "../assets/mariothon web.png";
 import uiux from "../assets/ui ux.png";
 import vlog from "../assets/vlog.png";
+import christ1 from "../assets/christ1.jpg";
+import comp from "../assets/comp.jpg";
+import gate from "../assets/gate.png";
+
 import { scroller } from "react-scroll";
 import HomeNavbar from "../Components/HomeNavbar";
 import React, { useEffect } from "react";
@@ -76,7 +80,7 @@ export const Home = () => {
             <div class="card">
               <img
                 class="card-img-top"
-                src="https://schoolofeducationchristuniversity.files.wordpress.com/2014/07/cropped-dsc_0029-1.jpg"
+                src={christ1}
                 alt="Card image cap"
               ></img>
               <div class="card-body">
@@ -99,7 +103,7 @@ export const Home = () => {
             <div class="card">
               <img
                 class="card-img-top"
-                src="https://christuniversity.in/uploads/userfiles/overviewcomputer.jpg"
+                src={comp}
                 alt="Card image cap"
               ></img>
               <div class="card-body">
@@ -124,7 +128,7 @@ export const Home = () => {
             <div class="card">
               <img
                 class="card-img-top"
-                src="https://christuniversity.in/uploads/userfiles/2(37)(1).png"
+                src={gate}
                 alt="Card image cap"
               ></img>
               <div class="card-body">
@@ -305,7 +309,7 @@ export const Home = () => {
                     alt="Card image cap"
                   ></img>
                   <div class="card-body">
-                    <h5 class="card-title">Event X</h5>
+                    <h5 class="card-title">Event Z</h5>
                     <p class="card-text">Surprise! Surprise! its beyond your imagination</p><br/>
                     <a href="/eventX" class="btn btn-primary">
                       Read More

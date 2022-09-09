@@ -76,8 +76,9 @@ export const Login = () => {
     })
     .catch(error => {
       setLoading(false)
-      console.log(error)
-      alert("Invalid credentials");
+      if(error.response.data){
+        alert(error.response?.data?.response);
+      }
     })
   }
 

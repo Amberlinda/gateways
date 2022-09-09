@@ -12,7 +12,7 @@ export const EventX = () => {
                 <div class="row align-items-center" style={{ height: "90vh" }}>
                     <div class="col-md-12">
                         <p class="justify-content-center text-center">
-                            <h1 class="title-new justify-content-center text-center">Event X
+                            <h1 class="title-new justify-content-center text-center">Event Z
                             </h1>
                         </p>
                     </div>
