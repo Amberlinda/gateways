@@ -27,6 +27,7 @@ import {
     FormControl
 } from '@mui/material'
 import { ArrowBack, ContentCopy } from '@mui/icons-material'
+import LoadingButton from '@mui/lab/LoadingButton';
 import { getName } from "../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import BasicModal from "../Components/basicModal";
@@ -153,6 +154,7 @@ const TeamEventForm = ({
     const [teamName,setTeamName] = useState(null) 
     const [showModal,setShowModal] = useState(true)
     const [showHackModal,setShowHackModal] = useState(false)
+    const [loading,setLoading] = useState(false)
 
     const {control, handleSubmit,formState:{errors}} = useForm()
     const navigate = useNavigate()
@@ -185,7 +187,7 @@ const TeamEventForm = ({
             return
         }
         // console.log(idArr)
-        
+        setLoading(true)
         setSelectedEventErr(false)
         axios.post(`${url}/registerTeam`,{
             event_id: selectedEvent,
@@ -200,6 +202,7 @@ const TeamEventForm = ({
             console.log(resp)
             console.log(resp.data)
             if(resp.status === 200){
+                setLoading(false)
                 if(resp.data.response){
                     alert(resp.data.response)
                     if(resp.data?.status != "failed"){
@@ -212,6 +215,7 @@ const TeamEventForm = ({
             
         })
         .catch(error => {
+            setLoading(false)
             if(error.response.data){
                 alert(error.response?.data?.response);
               }
@@ -338,13 +342,16 @@ const TeamEventForm = ({
                             }
                         })}
                     </Grid>
-                    <Button
+                    <LoadingButton
                         type="submit"
+                        // endIcon={<SendIcon />}
+                        loading={loading}
+                        loadingPosition="end"
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
                         Register Now
-                    </Button>
+                    </LoadingButton>
                 </Box>
             </ThemeProvider>
         </>
@@ -360,10 +367,12 @@ const IndividualEventForm = ({
     const [selectedEvent,setSelectedEvent] = useState()
     const {decodedToken} = useJwt(token)
     const [showModal,setShowModal] = useState(true)
+    const [loading,setLoading] = useState(false)
 
     const navigate = useNavigate()
 
     const handleEventRegistration = (id) => {
+        setLoading(true)
         axios.post(`${url}/eventRegister`,{
             event_id:id
         },{
@@ -372,6 +381,7 @@ const IndividualEventForm = ({
             }
         })
         .then(resp => {
+            setLoading(false)
             console.log(resp)
             if(resp.status === 200 && resp.statusText == "OK"){
                 alert(resp.data.response)
@@ -379,6 +389,7 @@ const IndividualEventForm = ({
             }
         })
         .catch((error) => {
+            setLoading(false)
             if(error.response.data){
                 alert(error.response?.data?.response);
               }
@@ -435,7 +446,16 @@ const IndividualEventForm = ({
                             />
                         </p>
                     ))}
-                    <Button type="submit" variant="contained" >Register Now</Button>
+                    <LoadingButton
+                        type="submit"
+                        // endIcon={<SendIcon />}
+                        loading={loading}
+                        loadingPosition="end"
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Register Now
+                    </LoadingButton>
 
                 </Box>
             </div>

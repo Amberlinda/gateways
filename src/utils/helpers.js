@@ -14,9 +14,9 @@ export const getName = (part_id,success) => {
         }
     })
     .catch(error => {
-        if(error.response.data){
-            alert(error.response?.data?.response);
-          }
+        // if(error.response.data){
+        //     alert(error.response?.data?.response);
+        //   }
         return null
     })
 }

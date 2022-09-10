@@ -1,2 +1,2 @@
-// export const url = "http://gateways.christuniversity.in"
-export const url = "http://localhost:3005"
+export const url = "https://gateways.christuniversity.in"
+// export const url = "http://localhost:3005"
