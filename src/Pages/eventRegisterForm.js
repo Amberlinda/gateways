@@ -24,7 +24,8 @@ import {
     OutlinedInput,
     InputAdornment,
     IconButton,
-    FormControl
+    FormControl,
+    useMediaQuery
 } from '@mui/material'
 import { ArrowBack, ContentCopy } from '@mui/icons-material'
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -34,8 +35,9 @@ import BasicModal from "../Components/basicModal";
 import { Modal } from "antd";
 import schedule from '../assets/schedule.jpg'
 import ImageModal from "../Components/imageModal";
+import { styled } from '@mui/material/styles';
 
-const theme = createTheme({
+const mainTheme = createTheme({
     palette:{
         mode:"dark"
     },
@@ -43,6 +45,7 @@ const theme = createTheme({
         fontFamily:"KrossNeueGrotesk-Light"
     }
 })
+
 
 const ParticipantName = ({
     ind,
@@ -84,7 +87,7 @@ const ParticipantName = ({
 
     return(
         <>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} md={5}>
                 <TextField 
                     // error={errors.team_name} 
                     margin="normal"
@@ -100,7 +103,7 @@ const ParticipantName = ({
                       }}
                 />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} md={5}>
                 <TextField 
                     // error={errors.team_name} 
                     margin="normal"
@@ -143,6 +146,7 @@ const TeamEventForm = ({
     token
 }) => {
 
+    const matchSm = useMediaQuery(mainTheme.breakpoints.down('sm'));
     
     const [selectedEvent,setSelectedEvent] = useState(5)
     const [selectedEventErr,setSelectedEventErr] = useState(false)
@@ -228,7 +232,7 @@ const TeamEventForm = ({
             {/* <p class="mt-5">
                 <h3>Team Events</h3>
             </p> */}
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={mainTheme}>
                 <BasicModal
                     open={showModal}
                     onClose={() => setShowModal(false)}
@@ -257,7 +261,7 @@ const TeamEventForm = ({
                     showBtn={true}
                 />
                 <Box component="form" noValidate onSubmit={handleSubmit(onSubmitHandler)}>
-                    <Grid container spacing={2} xs={7} mt={2}>
+                    <Grid container spacing={2} mt={2}>
                         <Grid item xs={12}>
                             <Select
                                 id="event"
@@ -297,7 +301,7 @@ const TeamEventForm = ({
                             if(el.event_id == selectedEvent){
                                 return(
                                     <>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid item xs={12} >
                                             <TextField 
                                                 // error={errors.team_name} 
                                                 margin="normal"
@@ -311,7 +315,7 @@ const TeamEventForm = ({
                                                 autoFocus
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid item xs={12}>
                                             <TextField 
                                                 // error={errors.team_name} 
                                                 margin="normal"
@@ -348,7 +352,7 @@ const TeamEventForm = ({
                         loading={loading}
                         loadingPosition="end"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{ mt: 3, mb: 2, width: matchSm? "200px" : "auto" }}
                     >
                         Register Now
                     </LoadingButton>
@@ -358,10 +362,13 @@ const TeamEventForm = ({
     )
 }
 
+
 const IndividualEventForm = ({
     events,
     token
 }) => {
+
+    const matchSm = useMediaQuery(mainTheme.breakpoints.down('sm'));
 
     const {handleSubmit, control} = useForm()
     const [selectedEvent,setSelectedEvent] = useState()
@@ -411,7 +418,7 @@ const IndividualEventForm = ({
     
     return(
         <>
-            <div class="form-check">
+            <div>
                 <BasicModal
                     open={showModal}
                     onClose={() => setShowModal(false)}
@@ -452,7 +459,7 @@ const IndividualEventForm = ({
                         loading={loading}
                         loadingPosition="end"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{ mt: 3, mb: 2, width: matchSm ? "200px" : "auto" }}
                     >
                         Register Now
                     </LoadingButton>
@@ -464,6 +471,8 @@ const IndividualEventForm = ({
 }
 
 const EventRegisterForm = () => {
+
+    const matchSm = useMediaQuery(mainTheme.breakpoints.down('sm'));
 
     const [selectedForm,setSelectedForm] = useState("individual")
     const [events,setEvents] = useState([])
@@ -529,7 +538,7 @@ const EventRegisterForm = () => {
 
     return(
         <>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={mainTheme}>
                 {/* <UserDashboardSidebar/> */}
                 <Link href="/user-dashboard" sx={{color:"#fff",lineHeight:"unset"}}>
                     <Fab color="primary" aria-label="back" style={{
@@ -541,45 +550,53 @@ const EventRegisterForm = () => {
                         <ArrowBack />
                     </Fab>
                 </Link>
-                <Grid container sx={{mt:15,pl:12}}>
-                    <Grid item xs={7} >
-                        <TextField
-                            select
-                            label="Select"
-                            value={selectedForm}
-                            onChange={(e) => setSelectedForm(e.target.value)}
-                            helperText="Please select event type"
-                            sx={{color:"#fff"}}
-                            >
-                            {["individual","team"].map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        {/* <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            style={{textTransform:"capitalize"}}>
-                                {selectedForm}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                {["individual","team"].map((el,index) => (
-                                    <button class="dropdown-item" type="button" 
-                                    onClick={() => setSelectedForm(el)}>{el}</button>
+                <Grid container sx={{mt:15,pl:matchSm ? "19%" : "10%",pr:matchSm ? "19%" : 0}}>
+                    <Grid item xs={12} md={7}>
+
+                            <TextField
+                                select
+                                label="Select"
+                                value={selectedForm}
+                                onChange={(e) => setSelectedForm(e.target.value)}
+                                helperText="Please select event type"
+                                sx={{color:"#fff"}}
+                                >
+                                {["individual","team"].map((option) => (
+                                    <MenuItem key={option} value={option}>
+                                        {option}
+                                    </MenuItem>
                                 ))}
-                            </div>
-                        </div> */}
-                        <Typography variant="h3" component="span" sx={{ml:2}}>events </Typography>
-                        {selectedForm === "individual" ?
-                            <IndividualEventForm events={handleEventType(0)} token={accessToken}/>
-                            :selectedForm === "team" ?
-                            <TeamEventForm events={handleEventType(1)} token={accessToken}/> : null
-                        }
+                            </TextField>
+                            {/* <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                style={{textTransform:"capitalize"}}>
+                                    {selectedForm}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    {["individual","team"].map((el,index) => (
+                                        <button class="dropdown-item" type="button" 
+                                        onClick={() => setSelectedForm(el)}>{el}</button>
+                                    ))}
+                                </div>
+                            </div> */}
+                            <Typography variant="h3" component="span" sx={{ml:2}}>events </Typography>
+                            {selectedForm === "individual" ?
+                                <IndividualEventForm events={handleEventType(0)} token={accessToken}/>
+                                :selectedForm === "team" ?
+                                <TeamEventForm events={handleEventType(1)} token={accessToken}/> : null
+                            }
+
                     </Grid>
-                    <Grid item xs={5} sx={{justifyItems:"right"}}>
+                    <Grid item xs={12} md={5} sx={{justifyItems:"right"}}>
                         <Button variant="contained" sx={rightSideBtnStyle} 
                         onClick={() => setShowSchedule(true)}>
                             See Schedule
+                        </Button>
+                        <Button variant="contained" 
+                            sx={{mt:2,...rightSideBtnStyle}} 
+                            href={selectedForm === "individual" ? "https://www.youtube.com/watch?v=vZvep84O3RM" : "https://www.youtube.com/watch?v=ujFIZbOLNEE"}
+                            target="_blank">
+                            Watch reference link
                         </Button>
                         <Button variant="contained" sx={{mt:2,...rightSideBtnStyle}} href="https://heyzine.com/flip-book/0fee58bdde.html" target="_blank">
                             Brochure
@@ -589,8 +606,8 @@ const EventRegisterForm = () => {
                         >
                             Refer form registration video
                         </Button> */}
+
                     </Grid>
-                    
                 </Grid>
                 <Modal
                     open={showVideo}
@@ -612,6 +629,7 @@ const EventRegisterForm = () => {
                 <ImageModal
                     open={showSchedule}
                     onClose={() => setShowSchedule(false)}
+                    heading="Schedule"
                     />
             </ThemeProvider>
             

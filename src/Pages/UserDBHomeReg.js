@@ -11,12 +11,27 @@ import {
     CardContent,
     Grid,
     Box,
-    
+    createTheme,
+    useMediaQuery
 } from '@mui/material'
 import axios from "axios";
 import { url } from "../utils/constants";
-import { styled } from "@mui/material/styles";
+import { styled, ThemeProvider } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
+import {
+    WhatsApp as WhatsAppIcon,
+    Logout
+} from '@mui/icons-material';
+
+const mainTheme = createTheme({
+    palette:{
+        mode:"dark"
+    },
+    typography:{
+        fontFamily:"KrossNeueGrotesk-Light"
+    }
+})
+
 
 function Item(props) {
     const { sx, ...other } = props;
@@ -141,6 +156,8 @@ const EventSection = ({
 
 export const UserDBHomeReg = () => {
 
+    const matchSm = useMediaQuery(mainTheme.breakpoints.down('sm'));
+
     const navigate = useNavigate()
     const [userName,setUserName] = useState()
     const [participantId,setParticipantId] = useState()
@@ -173,7 +190,61 @@ export const UserDBHomeReg = () => {
     return (
         <>
             {/* <UserDashboardSidebar/> */}
-            <main>
+            <ThemeProvider theme={mainTheme}>
+                <Grid container sx={{mt:5,p:matchSm ? 3 : 8}}>
+                    <Grid item xs={12} sm={12} md={12}>
+                        <Box component="div" sx={{
+                            display:"flex",
+                            flexWrap:"wrap",
+                            justifyContent:"space-between"
+                        }}>
+                            <Typography variant="h5">Hello {userName}</Typography>
+                            <Box component="div">
+                                <Typography variant="h5">Participant Id</Typography>
+                                <Typography variant="p">{participantId}</Typography>
+                            </Box>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} md={7.2} sx={{mt:3}}>
+                        <Typography variant="h5">Your events</Typography>
+                        <EventSection token={token}/>
+                    </Grid>
+                    <Grid item xs={12} md={4.8} sx={{mt:3}}>
+                        <Box variant="div" sx={{
+                            display:"flex",
+                            justifyContent:"right",
+                            flexDirection:"column",
+                            alignItems:matchSm ? "start" :"end"
+                        }}>
+                            <Button 
+                            variant="contained" 
+                            endIcon={<WhatsAppIcon/>} 
+                            sx={{mb:2,width:"150px"}}
+                            href="http://wa.link/r6p84t" 
+                            target="_blank"
+                            >Contact us</Button>
+                            <Button 
+                            variant="contained" 
+                            endIcon={<Logout/>} 
+                            sx={{width:"150px"}}
+                            onClick={handleSignOut}>Sign out</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} md={7.2} sx={{mt:3}}>
+                        <Typography variant="h5">Join another event, to double the fun!</Typography>
+                        <Link to="/user-register-form" 
+                            style={{
+                                color:"#000",
+                                background:"ccff28"
+                            }}>
+                                <Button variant="contained" sx={{mt:2}}>Register now</Button>
+
+                        </Link>
+                    </Grid>
+                    
+                </Grid>
+            </ThemeProvider>
+            {/* <main>
                 <div className="site-section">
                     <div className="container-fluid">
                         <div className="row justify-content-center">
@@ -238,7 +309,7 @@ export const UserDBHomeReg = () => {
                         </div>
                     </div>
                 </div>
-            </main>
+            </main> */}
         </>
     )
 }

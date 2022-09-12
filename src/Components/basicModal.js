@@ -4,7 +4,13 @@ import {
     Box,
     Typography,
     Button,
-    Link
+    Link,
+    Dialog,
+    DialogTitle,
+    TextField,
+    DialogContent,
+    DialogContentText,
+    DialogActions
 } from '@mui/material'
 import { styled } from '@mui/material/styles';
 
@@ -41,31 +47,21 @@ const BasicModal = ({
     showBtn
 }) => {
     return(
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            >
-            <CustomModal sx={style} >
-                <Typography id="modal-modal-title" variant="h5" component="h2">
-                    {heading}
-                </Typography>
-                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mt:2}}>
-                    {subHeading}
-                </Typography>
+        <Dialog open={open} onClose={onClose}>
+            <DialogTitle>{heading}</DialogTitle>
+            <DialogContent>
                 {instructions.map((instruction,index) => (
-                <Typography key={index} id="modal-modal-description" sx={{ mt: 2 }}>
-                    {instruction}
-                </Typography>
-                ))}
-                {showBtn && <Button target="_blank" 
-                href="mailto:gateways.hackathon@gmail.com" 
-                variant="contained" sx={{mt:2}}>
-                    Send mail
-                </Button>}
-            </CustomModal>
-        </Modal>
+                    <DialogContentText key={index} id="modal-modal-description" sx={{ mt: 2 }}>
+                        {instruction}
+                    </DialogContentText>
+                    ))}
+            
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={onClose}>Close</Button>
+                <Button target="_blank" href="mailto:gateways.hackathon@gmail.com">Send mail</Button>
+            </DialogActions>
+        </Dialog>
     )
 }
 

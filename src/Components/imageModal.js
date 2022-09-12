@@ -2,7 +2,13 @@ import React from "react"
 import {
     Modal,
     Box,
-    Typography
+    Typography,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    DialogTitle
 } from '@mui/material'
 import schedule from '../assets/schedule.jpg'
 
@@ -22,17 +28,31 @@ const modalStyle = {
 const ImageModal = ({
     onClose,
     open,
-    image
+    image,
+    heading
 }) => {
     return(
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={modalStyle} component="div">
-                <Box sx={{
+    //     <Modal
+    //         open={open}
+    //         onClose={onClose}
+    //         aria-labelledby="modal-modal-title"
+    //         aria-describedby="modal-modal-description"
+    //     >
+    //         <Box sx={modalStyle} component="div">
+    //             <Box sx={{
+    //                     width:"100%",
+    //                     height:"100%"
+    //                 }}
+    //                 component="img"
+    //                 alt="hello"
+    //                 src={schedule}
+    //             />
+    //     </Box>
+    //   </Modal>
+      <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{heading}</DialogTitle>
+      <DialogContent>
+      <Box sx={{
                         width:"100%",
                         height:"100%"
                     }}
@@ -40,8 +60,12 @@ const ImageModal = ({
                     alt="hello"
                     src={schedule}
                 />
-        </Box>
-      </Modal>
+      
+      </DialogContent>
+      <DialogActions>
+          <Button onClick={onClose}>Close</Button>
+      </DialogActions>
+  </Dialog>
     )
 }
 
