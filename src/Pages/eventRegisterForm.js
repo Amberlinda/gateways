@@ -393,7 +393,8 @@ const IndividualEventForm = ({
             if(resp.status === 200 && resp.statusText == "OK"){
                 alert(resp.data.response)
                 if(id === 3){
-                    window.location.href("https://bit.ly/CodeShashtra");
+                    window.location = "https://bit.ly/CodeShashtra";
+                    return false;
                 }else{
                     navigate("/user-dashboard")
                 }
@@ -403,6 +404,7 @@ const IndividualEventForm = ({
             setLoading(false)
             if(error.response.data){
                 alert(error.response?.data?.response);
+                
               }
         })
     }
