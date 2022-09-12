@@ -392,7 +392,11 @@ const IndividualEventForm = ({
             console.log(resp)
             if(resp.status === 200 && resp.statusText == "OK"){
                 alert(resp.data.response)
-                navigate("/user-dashboard")
+                if(id === 3){
+                    window.location.href("https://bit.ly/CodeShashtra");
+                }else{
+                    navigate("/user-dashboard")
+                }
             }
         })
         .catch((error) => {
@@ -415,6 +419,8 @@ const IndividualEventForm = ({
         })
         
     }
+
+    useEffect(() => {console.log(events)},[])
     
     return(
         <>
@@ -431,7 +437,8 @@ const IndividualEventForm = ({
                         "People participating in vlogging and photography events can participate in other events simultaneously, given that they manage their time accordingly. ",
                         "People participating in the vlogging event can come to campus by 7:00 AM to capture clips",
                         "Details about Event X will be provided on-spot.",
-                        "Participants are requested to refer the schedule to avoid overlspping of event timings."
+                        "Participants are requested to refer the schedule to avoid overlspping of event timings.",
+                        "Participants registering for coding\debugging should mandatorily register on 'Geeks for Geeks'.You will be redirected to 'Geeks for Geeks' for the same."
                     ]}
                 />
                 <Box component="form" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -596,7 +603,7 @@ const EventRegisterForm = () => {
                             sx={{mt:2,...rightSideBtnStyle}} 
                             href={selectedForm === "individual" ? "https://www.youtube.com/watch?v=vZvep84O3RM" : "https://www.youtube.com/watch?v=ujFIZbOLNEE"}
                             target="_blank">
-                            Watch reference link
+                            Watch reference
                         </Button>
                         <Button variant="contained" sx={{mt:2,...rightSideBtnStyle}} href="https://heyzine.com/flip-book/0fee58bdde.html" target="_blank">
                             Brochure

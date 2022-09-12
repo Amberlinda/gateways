@@ -76,6 +76,7 @@ export const Login = () => {
     })
     .catch(error => {
       setLoading(false)
+      console.log(error.response.data)
       if(error.response.data){
         alert(error.response?.data?.response);
       }
