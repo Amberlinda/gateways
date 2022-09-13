@@ -378,7 +378,7 @@ const IndividualEventForm = ({
 
     const navigate = useNavigate()
 
-    const handleEventRegistration = (id) => {
+    const handleEventRegistration = (id,callback) => {
         setLoading(true)
         axios.post(`${url}/eventRegister`,{
             event_id:id
@@ -390,14 +390,9 @@ const IndividualEventForm = ({
         .then(resp => {
             setLoading(false)
             console.log(resp)
+            callback(resp)
             if(resp.status === 200 && resp.statusText == "OK"){
                 alert(resp.data.response)
-                if(id === 3){
-                    window.location = "https://bit.ly/CodeShashtra";
-                    return false;
-                }else{
-                    navigate("/user-dashboard")
-                }
             }
         })
         .catch((error) => {
@@ -416,7 +411,16 @@ const IndividualEventForm = ({
 
         Object.keys(data).forEach((key,index) => {
             if(data[key]){
-                handleEventRegistration(key)
+                handleEventRegistration(key,() => {
+                    console.log(key)
+                    if(key == 3){
+                        console.log("coding debugging")
+                        window.location = "https://bit.ly/CodeShashtra";
+                        return false;
+                    }else{
+                        navigate("/user-dashboard")
+                    }
+                })
             }
         })
         
