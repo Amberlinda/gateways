@@ -5,6 +5,7 @@ import HomeNavbar from "../Components/HomeNavbar";
 export const AboutChrist = () => {
     return (
         <>
+         <div style={{ overflowX: "hidden" }}>
             <HomeNavbar/>
             <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw"}}>
 
@@ -29,6 +30,7 @@ export const AboutChrist = () => {
 
                     </div>
                 </div>
+            </div>
             </div>
         </>
     )

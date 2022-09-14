@@ -7,6 +7,7 @@ export const Battlestars = () => {
     let navigate = useNavigate();
     return (
         <>
+         <div style={{ overflowX: "hidden" }}>
             <HomeNavbar/>
             <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
 
@@ -71,7 +72,7 @@ export const Battlestars = () => {
                     </div>
                 </div>
             </div >
-
+            </div>
         </>
     )
 }

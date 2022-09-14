@@ -7,8 +7,9 @@ export const Mariothon = () => {
     let navigate = useNavigate();
     return (
         <>
+        <div style={{ overflowX:"hidden" }}>
             <HomeNavbar/>
-            <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
+            <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw",overflowX:"hidden" }}>
 
                 <div class="row align-items-center"  style={{  height: "90vh" }}>
                     <div class="col-md-12">
@@ -44,15 +45,15 @@ export const Mariothon = () => {
                                 </li>
                             </ul>
                         </p>
-                        <p class="content-event-ind justify-content-center">
+                        {/* <p class="content-event-ind justify-content-center">
                             Rounds
-                        </p>
+                        </p> */}
                         <p style={{ color: "#ffffff" }}>
-                            Problem Statements:
+                        <p class="content-event-ind justify-content-center">   Problem Statements </p>
                             <p style={{ color: "#ffffff" }}>
                                 The overall theme is Smart City. The problem statement should be from one of the following
-                                sub-domains:
-                                <p style={{ color: "#ffffff" }}>
+                                sub-domains:<br/><br/>  
+                                {/* <p style={{ color: "#ffffff" }}>
                                     ● Healthcare
                                 </p>
                                 <p style={{ color: "#ffffff" }}>
@@ -60,14 +61,30 @@ export const Mariothon = () => {
                                 </p>
                                 <p style={{ color: "#ffffff" }}>
                                     ● Environmental Issues
-                                </p>
-                                <p style={{color: "#fff", fontSize: "1.5rem"}}>
+                                </p> */}
+                               <p style={{color: "#fff", fontSize: "1.5rem"}}>
                                     Round 1
-                                </p>
+                                </p> 
                                 <p style={{ color: "#ffffff" }}>
-                                    Participants are required to mail an abstract proposal with PPT within September 18th to gateways
+                                    Prepare a document for your proposed idea from any one of the given sub domains by 13th sept.
+                                    <br/>
+                                    ● Healthcare<br/>
+                                    ● Transportation & Logistics<br/>
+                                    ● Environmental Issues<br/>
+                                    <br/>
+                                    Mail your submission to <a href="mailto:gateways.hackathon@gmail.com" >gateways.hackathon@gmail.com </a>
+                                    Include your college name and names of the team members.
+                                    <br/>
+                                    Format of document<br/>
+                                    ● Introduction <br/>
+                                    ● Idea proposal<br/>
+                                    ● System diagram representation<br/>
+                                    ● Approach towards the problem<br/>
+                                    ● Components<br/>
+                                    ● Future enhancements
+                                    {/* Participants are required to mail an abstract proposal with PPT within September 18th to gateways
                                     mail-id. The selected teams will progress to round 2, which will be held on 23rd September offline
-                                    at CHRIST.
+                                    at CHRIST. */}
                                 </p>
                                 <p style={{color: "#fff", fontSize: "1.5rem"}}>
                                     Round 2
@@ -94,6 +111,7 @@ export const Mariothon = () => {
 
                     </div>
                 </div>
+            </div>
             </div>
         </>
     )

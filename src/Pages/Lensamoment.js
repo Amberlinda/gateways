@@ -6,6 +6,7 @@ export const Lensamoment = () => {
     let navigate = useNavigate();
     return (
         <>
+         <div style={{ overflowX:"hidden" }}>
             <HomeNavbar/>
             <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
 
@@ -56,6 +57,7 @@ export const Lensamoment = () => {
 
                     </div>
                 </div>
+            </div>
             </div>
 
         </>

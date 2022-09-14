@@ -4,6 +4,7 @@ import HomeNavbar from "../Components/HomeNavbar";
 export const Vlogumentary = () => {
     return (
         <>
+         <div style={{ overflowX: "hidden" }}>
             <HomeNavbar/>
             <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
                 <div class="row align-items-center" style={{ height: "90vh" }}>
@@ -55,6 +56,7 @@ export const Vlogumentary = () => {
 
             </div>
                 </div>
+            </div>
             </div>
 
         </>

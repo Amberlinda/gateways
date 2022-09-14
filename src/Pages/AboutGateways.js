@@ -6,6 +6,7 @@ import HomeNavbar from "../Components/HomeNavbar";
 export const AboutGateways = () => {
     return (
         <>
+         <div style={{ overflowX: "hidden" }}>
             <HomeNavbar/>
             <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
 
@@ -31,6 +32,7 @@ export const AboutGateways = () => {
                         </p>
                     </div>
                 </div>
+            </div>
             </div>
         </>
     )

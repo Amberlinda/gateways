@@ -6,6 +6,7 @@ export const GeekOfiesta = () => {
     let navigate = useNavigate();
     return (
         <>
+         <div style={{ overflowX:"hidden" }}>
             <HomeNavbar/>
             <div class="container-fluid"style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
 
@@ -62,6 +63,7 @@ export const GeekOfiesta = () => {
 
                     </div>
                 </div>
+            </div>
             </div>
         </>
     )

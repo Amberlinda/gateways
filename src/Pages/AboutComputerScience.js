@@ -6,8 +6,9 @@ import HomeNavbar from "../Components/HomeNavbar";
 export const AboutComputerScience = () => {
     return (
         <>
+         <div style={{ overflowX: "hidden" }}>
             <HomeNavbar/>
-            <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw" }}>
+            <div class="container-fluid" style={{ backgroundColor: "#18181F", height: "100vh", width: "100vw",overflowX: "hidden" }}>
 
                 <div class="row align-items-center justify-content-center" style={{ height: "90vh" }}>
                 <div class="row align-items-center" style={{ backgroundImage: `url(${christ})`,height: "50vh",width:"100%",backgroundRepeat: "no-repeat",backgroundSize:"cover"}}>
@@ -29,6 +30,7 @@ export const AboutComputerScience = () => {
                         </p>
                     </div>
                 </div>
+            </div>
             </div>
         </>
     )
