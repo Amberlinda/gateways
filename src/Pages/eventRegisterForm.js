@@ -36,6 +36,7 @@ import { Modal } from "antd";
 import schedule from '../assets/schedule.jpg'
 import ImageModal from "../Components/imageModal";
 import { styled } from '@mui/material/styles';
+import CustomIframe from "../Components/customIframe";
 
 const mainTheme = createTheme({
     palette:{
@@ -103,7 +104,7 @@ const ParticipantName = ({
                       }}
                 />
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={7}>
                 <TextField 
                     // error={errors.team_name} 
                     margin="normal"
@@ -247,7 +248,9 @@ const TeamEventForm = ({
                         "Participants eliminated in the first round of the hackathon can register for other events on the website from their account.",
                         "Details about Event X will be provided on-spot.",
                         "Participants are requested to refer the schedule to avoid overlspping of event timings.",
-                        "All team members should create an account and the team leader should copy their participant ID to register"
+                        "All team members should create an account and the team leader should copy their participant ID to register",
+                        "On spot registrations are available for uipicasso, geek'o'fiesta, codeshastra, lens a moment, vlogumentary and lost in ages"
+
                     ]}
                 />
                 <BasicModal
@@ -301,7 +304,7 @@ const TeamEventForm = ({
                             if(el.event_id == selectedEvent){
                                 return(
                                     <>
-                                        <Grid item xs={12} >
+                                        <Grid item xs={12} md={5}>
                                             <TextField 
                                                 // error={errors.team_name} 
                                                 margin="normal"
@@ -315,7 +318,7 @@ const TeamEventForm = ({
                                                 autoFocus
                                             />
                                         </Grid>
-                                        <Grid item xs={12}>
+                                        <Grid item xs={12} md={7}>
                                             <TextField 
                                                 // error={errors.team_name} 
                                                 margin="normal"
@@ -444,7 +447,9 @@ const IndividualEventForm = ({
                         "People participating in the vlogging event can come to campus by 7:00 AM to capture clips",
                         "Details about Event X will be provided on-spot.",
                         "Participants are requested to refer the schedule to avoid overlspping of event timings.",
-                        "Participants registering for coding\debugging should mandatorily register on 'Geeks for Geeks'.You will be redirected to 'Geeks for Geeks' for the same."
+                        "Participants registering for coding/debugging should mandatorily register on 'Geeks for Geeks'.You will be redirected to 'Geeks for Geeks' for the same.",
+                        "On spot registrations are available for uipicasso, geek'o'fiesta, codeshastra, lens a moment, vlogumentary and lost in ages"
+                    
                     ]}
                 />
                 <Box component="form" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -563,7 +568,7 @@ const EventRegisterForm = () => {
                         <ArrowBack />
                     </Fab>
                 </Link>
-                <Grid container sx={{mt:15,pl:matchSm ? "19%" : "10%",pr:matchSm ? "19%" : 0}}>
+                <Grid container sx={{mt:15,pl:matchSm ? "19%" : "10%",pr:matchSm ? "19%" : 0}} spacing={2}>
                     <Grid item xs={12} md={7}>
 
                             <TextField
@@ -605,12 +610,6 @@ const EventRegisterForm = () => {
                         onClick={() => setShowSchedule(true)}>
                             See Schedule
                         </Button>
-                        <Button variant="contained" 
-                            sx={{mt:2,...rightSideBtnStyle}} 
-                            href={selectedForm === "individual" ? "https://www.youtube.com/watch?v=vZvep84O3RM" : "https://www.youtube.com/watch?v=ujFIZbOLNEE"}
-                            target="_blank">
-                            Watch reference
-                        </Button>
                         <Button variant="contained" sx={{mt:2,...rightSideBtnStyle}} href="https://heyzine.com/flip-book/0fee58bdde.html" target="_blank">
                             Brochure
                         </Button>
@@ -619,26 +618,15 @@ const EventRegisterForm = () => {
                         >
                             Refer form registration video
                         </Button> */}
-
+                        <CustomIframe 
+                        mainTheme={mainTheme}
+                        link={selectedForm === "individual" ? 
+                        "https://www.youtube.com/embed/vZvep84O3RM" : 
+                        "https://www.youtube.com/embed/ujFIZbOLNEE"
+                        }
+                        title="Reference video"/>
                     </Grid>
                 </Grid>
-                <Modal
-                    open={showVideo}
-                    onClose={() => setShowVideo(false)}
-                >
-                    <Box component="div" sx={modalStyle}>
-                        <iframe 
-                            width="560" 
-                            height="315" 
-                            src="https://www.youtube.com/embed/EehbTWT4rOw" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen
-                        ></iframe>
-                    </Box>
-
-                </Modal>
                 <ImageModal
                     open={showSchedule}
                     onClose={() => setShowSchedule(false)}

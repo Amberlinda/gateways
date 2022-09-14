@@ -49,6 +49,7 @@ const BasicModal = ({
     return(
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>{heading}</DialogTitle>
+            {subHeading && <DialogTitle>{subHeading}</DialogTitle>}
             <DialogContent>
                 {instructions.map((instruction,index) => (
                     <DialogContentText key={index} id="modal-modal-description" sx={{ mt: 2 }}>
@@ -59,7 +60,7 @@ const BasicModal = ({
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Close</Button>
-                <Button target="_blank" href="mailto:gateways.hackathon@gmail.com">Send mail</Button>
+                {showBtn && <Button target="_blank" href="mailto:gateways.hackathon@gmail.com">Send mail</Button>}
             </DialogActions>
         </Dialog>
     )
