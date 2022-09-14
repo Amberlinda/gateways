@@ -241,13 +241,12 @@ export const Register  = () => {
                 }}
                 render={({ field }) => 
                 <TextField 
-                  error={errors.phno} 
+                  error={errors.course} 
                   margin="normal"
                   fullWidth
                   label="Course"
                   helperText="Example: MCA, MSc"
                   autoFocus
-                  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                   {...field} />}
               />
               <Controller
